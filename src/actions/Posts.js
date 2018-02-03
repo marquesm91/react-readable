@@ -1,4 +1,4 @@
-export const GET_POSTS = 'ADD_RECIPE';
+export const GET_POSTS = 'GET_POSTS';
 
 const getPostsObject = posts => ({
   type: GET_POSTS,
