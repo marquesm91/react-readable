@@ -1,21 +1,39 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { getPosts } from './actions';
 
 class App extends Component {
+  componentDidMount() {
+    this.props.fetchPosts()
+  }
+
   render() {
+    const { posts } = this.props;
+
     return (
       <div>
         <h1>Hello World!</h1>
-        <h2>{this.props.reducer}</h2>
+        <ol>
+          {posts.length && posts.map(post => (
+            <li key={post.id}>
+              <h2>{post.body}</h2>
+              <h4>{post.id}</h4>
+            </li>
+          ))}
+        </ol>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ reducer }) => {
+const mapStateToProps = ({ posts }) => {
   return {
-    reducer: reducer.length === 0 ? 'dummy empty reducer': reducer
+    posts
   };
 };
 
-export default connect(mapStateToProps)(App);
+const mapDispatchToProps = dispatch => ({
+  fetchPosts: () => dispatch(getPosts())
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
