@@ -4,7 +4,7 @@ import { getPosts } from './actions';
 
 class App extends Component {
   componentDidMount() {
-    this.props.fetchPosts()
+    this.props.getPosts()
   }
 
   render() {
@@ -17,6 +17,13 @@ class App extends Component {
           {posts.length && posts.map(post => (
             <li key={post.id}>
               <h2>{post.body}</h2>
+              <h3>{post.title}</h3>
+              <h3>{post.timestamp}</h3>
+              <h3>{post.author}</h3>
+              <h3>{post.category}</h3>
+              <h3>{post.voteScore}</h3>
+              <h3>{post.deleted}</h3>
+              <h3>{post.commentCount}</h3>
               <h4>{post.id}</h4>
             </li>
           ))}
@@ -33,7 +40,7 @@ const mapStateToProps = ({ posts }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  fetchPosts: () => dispatch(getPosts())
+  getPosts: () => dispatch(getPosts())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
