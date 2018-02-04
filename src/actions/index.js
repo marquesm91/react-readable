@@ -1,1 +1,9 @@
-export { GET_POSTS, getPosts } from './Posts';
+export {
+  GET_POST,
+  GET_POSTS,
+  SET_POST,
+  DELETE_POST,
+  getPosts,
+  getCategoryPosts,
+  addPost
+} from './Posts';

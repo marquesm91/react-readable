@@ -1,8 +1,8 @@
 const url = 'http://localhost:3001';
-const auth = 'Basic YWRtaW46YWRtaW4=';
+const auth = 'Basic YWRtaW46YWRtaW4x';
 
 /* paths */
-const posts = '/posts';
+const posts = 'posts';
 
 export {
   url,

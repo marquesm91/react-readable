@@ -1,11 +1,23 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getPosts } from './actions';
+import { getPosts, getCategoryPosts, addPost } from './actions';
 import { Post } from './components';
+import { generateUUID } from './utils';
 
 class App extends Component {
-  componentDidMount() {
+  getPostsHandler = () => {
     this.props.getPosts()
+  }
+
+  addPostHandler = () => {
+    this.props.addPost({
+      id: generateUUID(),
+      timestamp: Date.now(),
+      title: 'My first Post',
+      body: 'Using redux!',
+      author: 'Matheus',
+      category: 'redux'
+    });
   }
 
   render() {
@@ -14,6 +26,8 @@ class App extends Component {
     return (
       <div>
         <h1>Hello World!</h1>
+        <button onClick={this.addPostHandler}>ADD POST</button>
+        <button onClick={this.getPostsHandler}>GET POSTS</button>
         <ol>
           {posts.length && posts.map(post => (
             <li key={post.id}>
@@ -33,7 +47,9 @@ const mapStateToProps = ({ posts }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  getPosts: () => dispatch(getPosts())
+  getPosts: () => dispatch(getPosts()),
+  getCategoryPosts: category => dispatch(getCategoryPosts(category)),
+  addPost: post => dispatch(addPost(post))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
