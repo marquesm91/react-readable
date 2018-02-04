@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getPosts, getCategoryPosts, addPost, votePost, editPost, deletePost } from './actions';
+import { getPosts, getCategoryPosts, addPost, votePost, editPost, deletePost, getPost } from './actions';
 import { Post } from './components';
 import { generateUUID } from './utils';
 
@@ -8,6 +8,10 @@ class App extends Component {
   state = {
     id: "",
     category: ""
+  }
+
+  getPostHandler = () => {
+    this.props.getPost(this.state.id);
   }
 
   getPostsHandler = () => {
@@ -57,6 +61,7 @@ class App extends Component {
       <div>
         <h1>Hello World!</h1>
         <button onClick={this.addPostHandler}>ADD POST</button>
+        <button onClick={this.getPostHandler}>GET POST</button>
         <button onClick={this.getCategoryPostsHandler}>GET CATEGORY POSTS</button>
         <button onClick={this.getPostsHandler}>GET POSTS</button>
         <button onClick={this.upVotePostHandler}>UP VOTE POST</button>
@@ -94,6 +99,7 @@ const mapStateToProps = ({ posts }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
+  getPost: id => dispatch(getPost(id)),
   getPosts: () => dispatch(getPosts()),
   getCategoryPosts: category => dispatch(getCategoryPosts(category)),
   addPost: post => dispatch(addPost(post)),

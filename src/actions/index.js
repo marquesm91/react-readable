@@ -3,6 +3,7 @@ export {
   GET_POSTS,
   SET_POST,
   DELETE_POST,
+  getPost,
   getPosts,
   getCategoryPosts,
   addPost,

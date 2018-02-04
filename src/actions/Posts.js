@@ -1,9 +1,14 @@
-import { url, auth, posts } from '../api';
+import { url, auth } from '../api';
 
 export const GET_POST = 'GET_POST';
 export const GET_POSTS = 'GET_POSTS';
 export const SET_POST = 'SET_POST';
 export const DELETE_POST = 'DELETE_POST';
+
+const getPostObject = post => ({
+  type: GET_POST,
+  post
+});
 
 const getPostsObject = posts => ({
   type: GET_POSTS,
@@ -21,19 +26,25 @@ const deletePostObject = post => ({
 });
 
 export const getPosts = () => dispatch => (
-  fetch(`${url}/${posts}`, { headers: { Authorization: auth }})
+  fetch(`${url}/posts`, { headers: { Authorization: auth }})
     .then(res => res.json())
     .then(posts => dispatch(getPostsObject(posts)))
 )
 
 export const getCategoryPosts = category => dispatch => (
-  fetch(`${url}/${category}/${posts}`, { headers: { Authorization: auth }})
+  fetch(`${url}/${category}/posts`, { headers: { Authorization: auth }})
     .then(res => res.json())
     .then(posts => dispatch(getPostsObject(posts)))
 )
 
+export const getPost = id => dispatch => (
+  fetch(`${url}/posts/${id}`, { headers: { Authorization: auth }})
+    .then(res => res.json())
+    .then(post => dispatch(getPostObject(post)))
+)
+
 export const addPost = post => dispatch => (
-  fetch(`${url}/${posts}`, {
+  fetch(`${url}/posts`, {
     method: 'POST',
     body: JSON.stringify(post),
     headers: {
@@ -46,7 +57,7 @@ export const addPost = post => dispatch => (
 )
 
 export const editPost = (id, content) => dispatch => (
-  fetch(`${url}/${posts}/${id}`, {
+  fetch(`${url}/posts/${id}`, {
     method: 'PUT',
     body: JSON.stringify(content),
     headers: {
@@ -59,7 +70,7 @@ export const editPost = (id, content) => dispatch => (
 )
 
 export const deletePost = id => dispatch => (
-  fetch(`${url}/${posts}/${id}`, {
+  fetch(`${url}/posts/${id}`, {
     method: 'DELETE',
     headers: {
       'Authorization': auth
@@ -70,7 +81,7 @@ export const deletePost = id => dispatch => (
 )
 
 export const votePost = (id, option) => dispatch => (
-  fetch(`${url}/${posts}/${id}`, {
+  fetch(`${url}/posts/${id}`, {
     method: 'POST',
     body: JSON.stringify({ option }),
     headers: {
