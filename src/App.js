@@ -6,11 +6,18 @@ import { generateUUID } from './utils';
 
 class App extends Component {
   state = {
-    id: ""
+    id: "",
+    category: ""
   }
 
   getPostsHandler = () => {
     this.props.getPosts()
+  }
+
+  getCategoryPostsHandler = () => {
+    this.state.category
+     ? this.props.getCategoryPosts(this.state.category)
+     : this.props.getPosts();
   }
 
   addPostHandler = () => {
@@ -50,6 +57,7 @@ class App extends Component {
       <div>
         <h1>Hello World!</h1>
         <button onClick={this.addPostHandler}>ADD POST</button>
+        <button onClick={this.getCategoryPostsHandler}>GET CATEGORY POSTS</button>
         <button onClick={this.getPostsHandler}>GET POSTS</button>
         <button onClick={this.upVotePostHandler}>UP VOTE POST</button>
         <button onClick={this.downVotePostHandler}>DOWN VOTE POST</button>
@@ -57,8 +65,15 @@ class App extends Component {
         <button onClick={this.deletePostHandler}>DELETE POST</button>
         <input
           type="text"
+          placeholder="ID"
           value={this.state.id}
           onChange={event => this.setState({ id: event.target.value })}
+        />
+        <input
+          type="text"
+          placeholder="Category"
+          value={this.state.category}
+          onChange={event => this.setState({ category: event.target.value })}
         />
         <ol>
           {posts.length && posts.map(post => (
