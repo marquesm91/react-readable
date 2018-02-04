@@ -1,3 +1,5 @@
+import { url, auth, posts } from '../api';
+
 export const GET_POSTS = 'GET_POSTS';
 
 const getPostsObject = posts => ({
@@ -6,7 +8,7 @@ const getPostsObject = posts => ({
 });
 
 export const getPosts = () => dispatch => (
-  fetch('http://localhost:3001/posts', { headers: { 'Authorization': 'Basic YWRtaW46YWRtaW4=' }})
+  fetch(`${url}${posts}`, { headers: { Authorization: auth }})
     .then(res => res.json())
     .then(posts => dispatch(getPostsObject(posts)))
 )
