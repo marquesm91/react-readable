@@ -1,6 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getPosts, getCategoryPosts, addPost, votePost, editPost, deletePost, getPost } from './actions';
+import {
+  getPosts,
+  getCategoryPosts,
+  addPost,
+  votePost,
+  editPost,
+  deletePost,
+  getPost,
+  getCategories
+} from './actions';
 import { Post } from './components';
 import { generateUUID } from './utils';
 
@@ -10,6 +19,9 @@ class App extends Component {
     category: ""
   }
 
+  componentDidMount() {
+    this.props.getCategories();
+  }
   getPostHandler = () => {
     this.props.getPost(this.state.id);
   }
@@ -105,7 +117,8 @@ const mapDispatchToProps = dispatch => ({
   addPost: post => dispatch(addPost(post)),
   votePost: (id, option) => dispatch(votePost(id, option)),
   editPost: (id, content) => dispatch(editPost(id, content)),
-  deletePost: id => dispatch(deletePost(id))
+  deletePost: id => dispatch(deletePost(id)),
+  getCategories: () => dispatch(getCategories())
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

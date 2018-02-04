@@ -11,3 +11,5 @@ export {
   editPost,
   deletePost
 } from './Posts';
+
+export { GET_CATEGORIES, getCategories } from './Categories';
