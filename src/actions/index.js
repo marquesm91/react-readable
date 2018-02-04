@@ -7,5 +7,6 @@ export {
   getCategoryPosts,
   addPost,
   votePost,
-  editPost
+  editPost,
+  deletePost
 } from './Posts';

@@ -15,6 +15,11 @@ const setPostObject = post => ({
   post
 });
 
+const deletePostObject = post => ({
+  type: DELETE_POST,
+  post
+});
+
 export const getPosts = () => dispatch => (
   fetch(`${url}/${posts}`, { headers: { Authorization: auth }})
     .then(res => res.json())
@@ -51,6 +56,17 @@ export const editPost = (id, content) => dispatch => (
   })
     .then(res => res.json())
     .then(post => dispatch(setPostObject(post)))
+)
+
+export const deletePost = id => dispatch => (
+  fetch(`${url}/${posts}/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': auth
+    }
+  })
+    .then(res => res.json())
+    .then(post => dispatch(deletePostObject(post)))
 )
 
 export const votePost = (id, option) => dispatch => (

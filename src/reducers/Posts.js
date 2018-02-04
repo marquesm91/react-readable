@@ -7,13 +7,12 @@ const Posts = (state = [], action) => {
     case GET_POSTS:
       return action.posts;
     case SET_POST:
-      return state.map(post =>
-        (post.id === action.post.id)
-          ? action.post
-          : post
-        );
+      return [
+        ...state.filter(post => post.id !== action.post.id),
+        action.post
+      ]
     case DELETE_POST:
-      return state.filter(post => post.id !== action.id);
+      return state.filter(post => post.id !== action.post.id);
     default:
       return state;
   }
