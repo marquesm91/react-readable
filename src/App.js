@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import sortBy from 'sort-by';
 import {
   getPosts,
   getCategoryPosts,
@@ -105,7 +106,7 @@ class App extends Component {
           onChange={event => this.setState({ category: event.target.value })}
         />
         <ol>
-          {posts.length && posts.map(post => (
+          {posts.length && posts.sort(sortBy('-voteScore')).map(post => (
             <li key={post.id}>
               <Post post={post} />
             </li>
