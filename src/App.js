@@ -8,7 +8,8 @@ import {
   editPost,
   deletePost,
   getPost,
-  getCategories
+  getCategories,
+  addComment
 } from './actions';
 import { Post } from './components';
 import { generateUUID } from './utils';
@@ -47,6 +48,16 @@ class App extends Component {
     });
   }
 
+  addCommentHandler = () => {
+    this.props.addComment({
+      id: generateUUID(),
+      timestamp: Date.now(),
+      body: 'This is a comment!!',
+      author: 'Matheus',
+      parentId: this.state.id
+    });
+  }
+
   editPostHandler = () => {
     this.props.editPost(this.state.id, {
       title: 'MY FIRST POST',
@@ -73,6 +84,7 @@ class App extends Component {
       <div>
         <h1>Hello World!</h1>
         <button onClick={this.addPostHandler}>ADD POST</button>
+        <button onClick={this.addCommentHandler}>ADD COMMENT</button>
         <button onClick={this.getPostHandler}>GET POST</button>
         <button onClick={this.getCategoryPostsHandler}>GET CATEGORY POSTS</button>
         <button onClick={this.getPostsHandler}>GET POSTS</button>
@@ -118,7 +130,8 @@ const mapDispatchToProps = dispatch => ({
   votePost: (id, option) => dispatch(votePost(id, option)),
   editPost: (id, content) => dispatch(editPost(id, content)),
   deletePost: id => dispatch(deletePost(id)),
-  getCategories: () => dispatch(getCategories())
+  getCategories: () => dispatch(getCategories()),
+  addComment: comment => dispatch(addComment(comment)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);
