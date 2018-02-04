@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getPosts, getCategoryPosts, addPost, votePost } from './actions';
+import { getPosts, getCategoryPosts, addPost, votePost, editPost } from './actions';
 import { Post } from './components';
 import { generateUUID } from './utils';
 
@@ -24,6 +24,13 @@ class App extends Component {
     });
   }
 
+  editPostHandler = () => {
+    this.props.editPost(this.state.id, {
+      title: 'MY FIRST POST',
+      body: 'Using redux!'
+    });
+  }
+
   upVotePostHandler = () => {
     this.props.votePost(this.state.id, "upVote");
   }
@@ -42,6 +49,7 @@ class App extends Component {
         <button onClick={this.getPostsHandler}>GET POSTS</button>
         <button onClick={this.upVotePostHandler}>UP VOTE POST</button>
         <button onClick={this.downVotePostHandler}>DOWN VOTE POST</button>
+        <button onClick={this.editPostHandler}>EDIT POST</button>
         <input
           type="text"
           value={this.state.id}
@@ -69,7 +77,8 @@ const mapDispatchToProps = dispatch => ({
   getPosts: () => dispatch(getPosts()),
   getCategoryPosts: category => dispatch(getCategoryPosts(category)),
   addPost: post => dispatch(addPost(post)),
-  votePost: (id, option) => dispatch(votePost(id, option))
+  votePost: (id, option) => dispatch(votePost(id, option)),
+  editPost: (id, content) => dispatch(editPost(id, content))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

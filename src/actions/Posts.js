@@ -40,6 +40,19 @@ export const addPost = post => dispatch => (
     .then(post => dispatch(setPostObject(post)))
 )
 
+export const editPost = (id, content) => dispatch => (
+  fetch(`${url}/${posts}/${id}`, {
+    method: 'PUT',
+    body: JSON.stringify(content),
+    headers: {
+      'Authorization': auth,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(res => res.json())
+    .then(post => dispatch(setPostObject(post)))
+)
+
 export const votePost = (id, option) => dispatch => (
   fetch(`${url}/${posts}/${id}`, {
     method: 'POST',
