@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getPosts, getCategoryPosts, addPost } from './actions';
+import { getPosts, getCategoryPosts, addPost, votePost } from './actions';
 import { Post } from './components';
 import { generateUUID } from './utils';
 
 class App extends Component {
+  state = {
+    id: ""
+  }
+
   getPostsHandler = () => {
     this.props.getPosts()
   }
@@ -20,6 +24,14 @@ class App extends Component {
     });
   }
 
+  upVotePostHandler = () => {
+    this.props.votePost(this.state.id, "upVote");
+  }
+
+  downVotePostHandler = () => {
+    this.props.votePost(this.state.id, "downVote");
+  }
+
   render() {
     const { posts } = this.props;
 
@@ -28,6 +40,13 @@ class App extends Component {
         <h1>Hello World!</h1>
         <button onClick={this.addPostHandler}>ADD POST</button>
         <button onClick={this.getPostsHandler}>GET POSTS</button>
+        <button onClick={this.upVotePostHandler}>UP VOTE POST</button>
+        <button onClick={this.downVotePostHandler}>DOWN VOTE POST</button>
+        <input
+          type="text"
+          value={this.state.id}
+          onChange={event => this.setState({ id: event.target.value })}
+        />
         <ol>
           {posts.length && posts.map(post => (
             <li key={post.id}>
@@ -49,7 +68,8 @@ const mapStateToProps = ({ posts }) => {
 const mapDispatchToProps = dispatch => ({
   getPosts: () => dispatch(getPosts()),
   getCategoryPosts: category => dispatch(getCategoryPosts(category)),
-  addPost: post => dispatch(addPost(post))
+  addPost: post => dispatch(addPost(post)),
+  votePost: (id, option) => dispatch(votePost(id, option))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

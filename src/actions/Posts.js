@@ -37,5 +37,18 @@ export const addPost = post => dispatch => (
     }
   })
     .then(res => res.json())
-    .then(post => {console.log(post); dispatch(setPostObject(post))})
+    .then(post => dispatch(setPostObject(post)))
+)
+
+export const votePost = (id, option) => dispatch => (
+  fetch(`${url}/${posts}/${id}`, {
+    method: 'POST',
+    body: JSON.stringify({ option }),
+    headers: {
+      'Authorization': auth,
+      'Content-Type': 'application/json'
+    }
+  })
+    .then(res => res.json())
+    .then(post => dispatch(setPostObject(post)))
 )

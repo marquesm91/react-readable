@@ -5,5 +5,6 @@ export {
   DELETE_POST,
   getPosts,
   getCategoryPosts,
-  addPost
+  addPost,
+  votePost
 } from './Posts';
