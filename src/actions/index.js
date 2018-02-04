@@ -1,3 +1,5 @@
+export { GET_CATEGORIES, getCategories } from './Categories';
+
 export {
   GET_POST,
   GET_POSTS,
@@ -12,4 +14,15 @@ export {
   deletePost
 } from './Posts';
 
-export { GET_CATEGORIES, getCategories } from './Categories';
+export {
+  GET_COMMENT,
+  GET_COMMENTS,
+  SET_COMMENT,
+  DELETE_COMMENT,
+  getComment,
+  getPostComments,
+  addComment,
+  voteComment,
+  editComment,
+  deleteComment
+} from './Comments';
