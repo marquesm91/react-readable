@@ -17,22 +17,19 @@ import { generateUUID } from './utils';
 
 class App extends Component {
   state = {
-    id: "",
-    category: ""
+    id: null,
+    category: null
   }
 
   componentDidMount() {
     this.props.getCategories();
   }
+
   getPostHandler = () => {
     this.props.getPost(this.state.id);
   }
 
   getPostsHandler = () => {
-    this.props.getPosts()
-  }
-
-  getCategoryPostsHandler = () => {
     this.state.category
      ? this.props.getCategoryPosts(this.state.category)
      : this.props.getPosts();
@@ -49,14 +46,16 @@ class App extends Component {
     });
   }
 
-  addCommentHandler = () => {
-    this.props.addComment({
+  addCommentHandler = async () => {
+    await this.props.addComment({
       id: generateUUID(),
       timestamp: Date.now(),
       body: 'This is a comment!!',
       author: 'Matheus',
       parentId: this.state.id
-    });
+    })
+    await this.props.getPosts();
+
   }
 
   editPostHandler = () => {
@@ -79,36 +78,34 @@ class App extends Component {
   }
 
   render() {
-    const { posts } = this.props;
+    const { posts, categories } = this.props;
 
     return (
-      <div>
+      <div style={{ flex: 1, width: '100%' }}>
         <h1>Hello World!</h1>
         <button onClick={this.addPostHandler}>ADD POST</button>
         <button onClick={this.addCommentHandler}>ADD COMMENT</button>
         <button onClick={this.getPostHandler}>GET POST</button>
-        <button onClick={this.getCategoryPostsHandler}>GET CATEGORY POSTS</button>
         <button onClick={this.getPostsHandler}>GET POSTS</button>
         <button onClick={this.upVotePostHandler}>UP VOTE POST</button>
         <button onClick={this.downVotePostHandler}>DOWN VOTE POST</button>
         <button onClick={this.editPostHandler}>EDIT POST</button>
         <button onClick={this.deletePostHandler}>DELETE POST</button>
-        <input
-          type="text"
-          placeholder="ID"
-          value={this.state.id}
-          onChange={event => this.setState({ id: event.target.value })}
-        />
-        <input
-          type="text"
-          placeholder="Category"
-          value={this.state.category}
-          onChange={event => this.setState({ category: event.target.value })}
-        />
-        <ol>
+        <select onChange={event => this.setState({ category: event.target.value })}>
+          <option value="" defaultValue>Select a category...</option>
+          {categories.map(category => (
+            <option
+              key={category.path}
+              value={category.path}
+            >
+              {category.name}
+            </option>
+          ))}
+        </select>
+        <ol style={{ listStyleType: 'none', padding: '0', margin: '0' }}>
           {posts.length && posts.sort(sortBy('-voteScore')).map(post => (
-            <li key={post.id}>
-              <Post post={post} />
+            <li key={post.id} style={{ cursor: 'pointer' }} onClick={() => this.setState({ id: post.id })}>
+              <Post post={post} postStyle={{ 'background': this.state.id === post.id ? '#ffcece' : null }}/>
             </li>
           ))}
         </ol>
@@ -117,9 +114,10 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ posts }) => {
+const mapStateToProps = ({ posts, categories }) => {
   return {
-    posts
+    posts,
+    categories
   };
 };
 

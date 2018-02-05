@@ -1,21 +1,41 @@
 import React from 'react';
 import { getTimestampAsString } from '../utils';
 
-const Post = ({ post }) => {
+const Post = ({ post, postStyle }) => {
   const { full } = getTimestampAsString(post.timestamp);
   return (
-    <div>
-      <h2>{post.body}</h2>
-      <h3>{post.title}</h3>
-      <h3>{full}</h3>
-      <h3>{post.author}</h3>
-      <h3>{post.category}</h3>
-      <h3>{post.voteScore}</h3>
-      <h3>{post.deleted}</h3>
-      <h3>{post.commentCount}</h3>
-      <h4>{post.id}</h4>
+    <div style={{ ...styles.container, ...postStyle}}>
+      <div style={styles.description}>{post.body}</div>
+      <div style={styles.description}>{post.title}</div>
+      <div style={styles.description}>{full}</div>
+      <div style={styles.description}>{post.author}</div>
+      <div style={styles.description}>{post.category}</div>
+      <div style={styles.description}>{post.voteScore}</div>
+      <div style={styles.description}>{post.deleted ? 'true' : 'false'}</div>
+      <div style={styles.description}>{post.commentCount}</div>
+      <div style={styles.description}>{post.id}</div>
     </div>
   );
 };
+
+const styles = {
+  container: {
+    flex: 1,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    justifyContent: 'center',
+    padding: '10px 15px 10px 15px',
+    border: '1px solid grey',
+    margin: '15px'
+  },
+  description: {
+    flex: 1,
+    height: '100%',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  }
+}
 
 export { Post };
