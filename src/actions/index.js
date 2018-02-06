@@ -1,4 +1,4 @@
-export { GET_CATEGORIES, getCategories } from './Categories';
+export { SET_CATEGORY, GET_CATEGORIES, getCategories, setCategoryObject } from './Categories';
 
 export {
   GET_POST,

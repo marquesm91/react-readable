@@ -1,9 +1,15 @@
-import { GET_CATEGORIES } from '../actions';
+import { SET_CATEGORY, GET_CATEGORIES } from '../actions';
 
-const Categories = (state = [], action) => {
+const initialState = {
+  categoriesList: [],
+  categorySelected: ''
+}
+const Categories = (state = initialState, action) => {
   switch (action.type) {
+    case SET_CATEGORY:
+      return { ...state, categorySelected: action.category };
     case GET_CATEGORIES:
-      return action.categories;
+      return { ...state, categories: action.categories };
     default:
       return state;
   }

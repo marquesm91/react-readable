@@ -10,15 +10,15 @@ import {
   deletePost,
   getPost,
   getCategories,
-  addComment
+  addComment,
+  setCategoryObject
 } from './actions';
 import { Post } from './components';
 import { generateUUID } from './utils';
 
 class App extends Component {
   state = {
-    id: null,
-    category: null
+    id: null
   }
 
   componentDidMount() {
@@ -30,8 +30,8 @@ class App extends Component {
   }
 
   getPostsHandler = () => {
-    this.state.category
-     ? this.props.getCategoryPosts(this.state.category)
+    this.props.category
+     ? this.props.getCategoryPosts(this.props.category)
      : this.props.getPosts();
   }
 
@@ -91,9 +91,9 @@ class App extends Component {
         <button onClick={this.downVotePostHandler}>DOWN VOTE POST</button>
         <button onClick={this.editPostHandler}>EDIT POST</button>
         <button onClick={this.deletePostHandler}>DELETE POST</button>
-        <select onChange={event => this.setState({ category: event.target.value })}>
+        <select onChange={event => this.props.setCategory(event.target.value)}>
           <option value="" defaultValue>Select a category...</option>
-          {categories.map(category => (
+          {categories && categories.map(category => (
             <option
               key={category.path}
               value={category.path}
@@ -114,10 +114,11 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ posts, categories }) => {
+const mapStateToProps = ({ posts, categories, categorySelected }) => {
   return {
     posts,
-    categories
+    categories: categories.categoriesList,
+    category: categories.categorySelected
   };
 };
 
@@ -125,6 +126,7 @@ const mapDispatchToProps = dispatch => ({
   getPost: id => dispatch(getPost(id)),
   getPosts: () => dispatch(getPosts()),
   getCategoryPosts: category => dispatch(getCategoryPosts(category)),
+  setCategory: category => dispatch(setCategoryObject(category)),
   addPost: post => dispatch(addPost(post)),
   votePost: (id, option) => dispatch(votePost(id, option)),
   editPost: (id, content) => dispatch(editPost(id, content)),
