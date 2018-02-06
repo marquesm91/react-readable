@@ -12,7 +12,7 @@ import {
   getCategories,
   addComment,
   setCategoryObject,
-  getPostObject
+  selectPostObject
 } from './actions';
 import { Post } from './components';
 import { generateUUID } from './utils';
@@ -128,7 +128,7 @@ const mapStateToProps = ({ posts, categories, categorySelected }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  selectPost: post => dispatch(getPostObject(post)),
+  selectPost: post => dispatch(selectPostObject(post)),
   getPost: id => dispatch(getPost(id)),
   getPosts: () => dispatch(getPosts()),
   getCategoryPosts: category => dispatch(getCategoryPosts(category)),

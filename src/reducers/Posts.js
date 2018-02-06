@@ -1,4 +1,4 @@
-import { GET_POST, GET_POSTS, SET_POST, DELETE_POST } from '../actions';
+import { SELECT_POST, GET_POST, GET_POSTS, SET_POST, DELETE_POST } from '../actions';
 
 const initialState = {
   postsList: [],
@@ -7,6 +7,8 @@ const initialState = {
 
 const Posts = (state = initialState, action) => {
   switch (action.type) {
+    case SELECT_POST:
+      return { ...state, postSelected: action.post };
     case GET_POST:
       return { ...state, postSelected: state.postsList.find(post => post.id === action.post.id) };
     case GET_POSTS:

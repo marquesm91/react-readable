@@ -1,6 +1,7 @@
 export { SET_CATEGORY, GET_CATEGORIES, getCategories, setCategoryObject } from './Categories';
 
 export {
+  SELECT_POST,
   GET_POST,
   GET_POSTS,
   SET_POST,
@@ -12,7 +13,7 @@ export {
   votePost,
   editPost,
   deletePost,
-  getPostObject
+  selectPostObject
 } from './Posts';
 
 export {
