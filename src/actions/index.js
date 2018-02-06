@@ -1,4 +1,9 @@
-export { SET_CATEGORY, GET_CATEGORIES, getCategories, setCategoryObject } from './Categories';
+export {
+  SET_CATEGORY,
+  GET_CATEGORIES,
+  getCategories,
+  setCategoryObject
+} from './Categories';
 
 export {
   SELECT_POST,
@@ -17,6 +22,7 @@ export {
 } from './Posts';
 
 export {
+  SELECT_COMMENT,
   GET_COMMENT,
   GET_COMMENTS,
   SET_COMMENT,
@@ -26,5 +32,6 @@ export {
   addComment,
   voteComment,
   editComment,
-  deleteComment
+  deleteComment,
+  selectCommentObject
 } from './Comments';

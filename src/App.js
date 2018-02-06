@@ -11,10 +11,13 @@ import {
   getPost,
   getCategories,
   addComment,
+  voteComment,
+  getPostComments,
   setCategoryObject,
-  selectPostObject
+  selectPostObject,
+  selectCommentObject
 } from './actions';
-import { Post } from './components';
+import { Post, Comment } from './components';
 import { generateUUID } from './utils';
 
 class App extends Component {
@@ -27,6 +30,15 @@ class App extends Component {
   onSelectCategoryHandler = async event => {
     await this.props.setCategory(event.target.value);
     await this.getPostsHandler();
+  }
+
+  onSelectPostHandler = async post => {
+    await this.props.selectPost(post);
+    await this.props.getPostComments(this.props.postSelected.id);
+  }
+
+  onSelectCommentHandler = async comment => {
+    await this.props.selectComment(comment);
   }
 
   getPostHandler = () => {
@@ -81,8 +93,16 @@ class App extends Component {
     this.props.votePost(this.props.postSelected.id, "downVote");
   }
 
+  upVoteCommentHandler = () => {
+    this.props.voteComment(this.props.commentSelected.id, "upVote");
+  }
+
+  downVoteCommentHandler = () => {
+    this.props.voteComment(this.props.commentSelected.id, "downVote");
+  }
+
   render() {
-    const { posts, categories, postSelected } = this.props;
+    const { posts, categories, postSelected, comments, commentSelected } = this.props;
 
     return (
       <div style={{ flex: 1, width: '100%' }}>
@@ -93,6 +113,8 @@ class App extends Component {
         <button onClick={this.getPostsHandler}>GET POSTS</button>
         <button onClick={this.upVotePostHandler}>UP VOTE POST</button>
         <button onClick={this.downVotePostHandler}>DOWN VOTE POST</button>
+        <button onClick={this.upVoteCommentHandler}>UP VOTE COMMENT</button>
+        <button onClick={this.downVoteCommentHandler}>DOWN VOTE COMMENT</button>
         <button onClick={this.editPostHandler}>EDIT POST</button>
         <button onClick={this.deletePostHandler}>DELETE POST</button>
         <select onChange={this.onSelectCategoryHandler}>
@@ -108,9 +130,18 @@ class App extends Component {
         </select>
         <ol style={{ listStyleType: 'none', padding: '0', margin: '0' }}>
           {posts.length && posts.sort(sortBy('-voteScore')).map(post => (
-            <li key={post.id} style={{ cursor: 'pointer' }} onClick={() => this.props.selectPost(post)}>
-              <Post post={post} postStyle={{ 'background': postSelected && (postSelected.id === post.id) ? '#ffcece' : null }}/>
-            </li>
+            <div key={post.id}>
+              <li style={{ cursor: 'pointer' }} onClick={() => this.onSelectPostHandler(post)}>
+                <Post post={post} postStyle={{ 'background': postSelected && (postSelected.id === post.id) ? '#ffcece' : null }}/>
+              </li>
+              <ol style={{ listStyleType: 'none', padding: '0', margin: '10px 30px' }}>
+                {comments.length && comments[0].parentId === post.id && comments.sort(sortBy('-voteScore')).map(comment => (
+                  <li key={comment.id} style={{ cursor: 'pointer' }} onClick={() => this.onSelectCommentHandler(comment)}>
+                    <Comment comment={comment} commentStyle={{ 'background': commentSelected && (commentSelected.id === comment.id) ? '#ceffce' : null }}/>
+                  </li>
+                ))}
+              </ol>
+            </div>
           ))}
         </ol>
       </div>
@@ -118,12 +149,14 @@ class App extends Component {
   }
 }
 
-const mapStateToProps = ({ posts, categories, categorySelected }) => {
+const mapStateToProps = ({ posts, categories, comments }) => {
   return {
     posts: posts.postsList,
     postSelected: posts.postSelected,
     categories: categories.categoriesList,
-    category: categories.categorySelected
+    category: categories.categorySelected,
+    comments: comments.commentsList,
+    commentSelected: comments.commentSelected
   };
 };
 
@@ -139,6 +172,9 @@ const mapDispatchToProps = dispatch => ({
   deletePost: id => dispatch(deletePost(id)),
   getCategories: () => dispatch(getCategories()),
   addComment: comment => dispatch(addComment(comment)),
+  voteComment: (id, comment) => dispatch(voteComment(id, comment)),
+  getPostComments: id => dispatch(getPostComments(id)),
+  selectComment: comment => dispatch(selectCommentObject(comment))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

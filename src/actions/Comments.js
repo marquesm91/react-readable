@@ -1,9 +1,15 @@
 import { url, auth } from '../api';
 
+export const SELECT_COMMENT = 'SELECT_COMMENT';
 export const GET_COMMENT = 'GET_COMMENT';
 export const GET_COMMENTS = 'GET_COMMENTS';
 export const SET_COMMENT = 'SET_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
+
+export const selectCommentObject = comment => ({
+  type: SELECT_COMMENT,
+  comment
+});
 
 const getCommentObject = comment => ({
   type: GET_COMMENT,
