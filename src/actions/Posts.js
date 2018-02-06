@@ -5,7 +5,7 @@ export const GET_POSTS = 'GET_POSTS';
 export const SET_POST = 'SET_POST';
 export const DELETE_POST = 'DELETE_POST';
 
-const getPostObject = post => ({
+export const getPostObject = post => ({
   type: GET_POST,
   post
 });

@@ -11,7 +11,8 @@ export {
   addPost,
   votePost,
   editPost,
-  deletePost
+  deletePost,
+  getPostObject
 } from './Posts';
 
 export {

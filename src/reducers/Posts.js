@@ -1,15 +1,20 @@
 import { GET_POST, GET_POSTS, SET_POST, DELETE_POST } from '../actions';
 
-const Posts = (state = [], action) => {
+const initialState = {
+  postsList: [],
+  postSelected: null
+}
+
+const Posts = (state = initialState, action) => {
   switch (action.type) {
     case GET_POST:
-      return state.filter(post => post.id === action.post.id);
+      return { ...state, postSelected: state.postsList.find(post => post.id === action.post.id) };
     case GET_POSTS:
-      return action.posts;
+      return { ...state, postsList: action.posts };
     case SET_POST:
-      return [...state.filter(post => post.id !== action.post.id), action.post]
+      return { ...state, postsList: [...state.postsList.filter(post => post.id !== action.post.id), action.post] };
     case DELETE_POST:
-      return state.filter(post => post.id !== action.post.id);
+      return { ...state, postsList: state.postsList.filter(post => post.id !== action.post.id) };
     default:
       return state;
   }

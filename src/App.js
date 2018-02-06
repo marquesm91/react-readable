@@ -11,22 +11,26 @@ import {
   getPost,
   getCategories,
   addComment,
-  setCategoryObject
+  setCategoryObject,
+  getPostObject
 } from './actions';
 import { Post } from './components';
 import { generateUUID } from './utils';
 
 class App extends Component {
-  state = {
-    id: null
+  async componentDidMount() {
+    const { getCategories, getPosts } = this.props;
+    await getCategories();
+    await getPosts();
   }
 
-  componentDidMount() {
-    this.props.getCategories();
+  onSelectCategoryHandler = async event => {
+    await this.props.setCategory(event.target.value);
+    await this.getPostsHandler();
   }
 
   getPostHandler = () => {
-    this.props.getPost(this.state.id);
+    this.props.getPost(this.props.postSelected.id)
   }
 
   getPostsHandler = () => {
@@ -52,33 +56,33 @@ class App extends Component {
       timestamp: Date.now(),
       body: 'This is a comment!!',
       author: 'Matheus',
-      parentId: this.state.id
+      parentId: this.props.postSelected.id
     })
     await this.props.getPosts();
 
   }
 
   editPostHandler = () => {
-    this.props.editPost(this.state.id, {
+    this.props.editPost(this.props.postSelected.id, {
       title: 'MY FIRST POST',
       body: 'Using redux!'
     });
   }
 
   deletePostHandler = () => {
-    this.props.deletePost(this.state.id);
+    this.props.deletePost(this.props.postSelected.id);
   }
 
   upVotePostHandler = () => {
-    this.props.votePost(this.state.id, "upVote");
+    this.props.votePost(this.props.postSelected.id, "upVote");
   }
 
   downVotePostHandler = () => {
-    this.props.votePost(this.state.id, "downVote");
+    this.props.votePost(this.props.postSelected.id, "downVote");
   }
 
   render() {
-    const { posts, categories } = this.props;
+    const { posts, categories, postSelected } = this.props;
 
     return (
       <div style={{ flex: 1, width: '100%' }}>
@@ -91,7 +95,7 @@ class App extends Component {
         <button onClick={this.downVotePostHandler}>DOWN VOTE POST</button>
         <button onClick={this.editPostHandler}>EDIT POST</button>
         <button onClick={this.deletePostHandler}>DELETE POST</button>
-        <select onChange={event => this.props.setCategory(event.target.value)}>
+        <select onChange={this.onSelectCategoryHandler}>
           <option value="" defaultValue>Select a category...</option>
           {categories.map(category => (
             <option
@@ -104,8 +108,8 @@ class App extends Component {
         </select>
         <ol style={{ listStyleType: 'none', padding: '0', margin: '0' }}>
           {posts.length && posts.sort(sortBy('-voteScore')).map(post => (
-            <li key={post.id} style={{ cursor: 'pointer' }} onClick={() => this.setState({ id: post.id })}>
-              <Post post={post} postStyle={{ 'background': this.state.id === post.id ? '#ffcece' : null }}/>
+            <li key={post.id} style={{ cursor: 'pointer' }} onClick={() => this.props.selectPost(post)}>
+              <Post post={post} postStyle={{ 'background': postSelected && (postSelected.id === post.id) ? '#ffcece' : null }}/>
             </li>
           ))}
         </ol>
@@ -116,13 +120,15 @@ class App extends Component {
 
 const mapStateToProps = ({ posts, categories, categorySelected }) => {
   return {
-    posts,
+    posts: posts.postsList,
+    postSelected: posts.postSelected,
     categories: categories.categoriesList,
     category: categories.categorySelected
   };
 };
 
 const mapDispatchToProps = dispatch => ({
+  selectPost: post => dispatch(getPostObject(post)),
   getPost: id => dispatch(getPost(id)),
   getPosts: () => dispatch(getPosts()),
   getCategoryPosts: category => dispatch(getCategoryPosts(category)),
