@@ -9,7 +9,7 @@ const Categories = (state = initialState, action) => {
     case SET_CATEGORY:
       return { ...state, categorySelected: action.category };
     case GET_CATEGORIES:
-      return { ...state, categories: action.categories };
+      return { ...state, categoriesList: action.categories };
     default:
       return state;
   }

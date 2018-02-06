@@ -93,7 +93,7 @@ class App extends Component {
         <button onClick={this.deletePostHandler}>DELETE POST</button>
         <select onChange={event => this.props.setCategory(event.target.value)}>
           <option value="" defaultValue>Select a category...</option>
-          {categories && categories.map(category => (
+          {categories.map(category => (
             <option
               key={category.path}
               value={category.path}
