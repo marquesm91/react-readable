@@ -15,7 +15,9 @@ import {
   getPostComments,
   setCategoryObject,
   selectPostObject,
-  selectCommentObject
+  selectCommentObject,
+  setPostsOrderByObject,
+  setPostsOrderDirObject
 } from './actions';
 import { Post, Comment } from './components';
 import { generateUUID } from './utils';
@@ -101,8 +103,21 @@ class App extends Component {
     this.props.voteComment(this.props.commentSelected.id, "downVote");
   }
 
+  orderByHandler = async () => {
+    this.props.postsOrderDir === 'desc'
+      ? await this.props.setPostsOrderBy('-title')
+      : await this.props.setPostsOrderBy('title')
+    await this.props.getPosts();
+  }
+
+  orderDirHandler = () => {
+    this.props.postsOrderDir === 'desc'
+      ? this.props.setPostsOrderDir('asc')
+      : this.props.setPostsOrderDir('desc')
+  }
+
   render() {
-    const { posts, categories, postSelected, comments, commentSelected } = this.props;
+    const { posts, categories, postSelected, comments, commentSelected, postsOrderBy } = this.props;
 
     return (
       <div style={{ flex: 1, width: '100%' }}>
@@ -117,6 +132,8 @@ class App extends Component {
         <button onClick={this.downVoteCommentHandler}>DOWN VOTE COMMENT</button>
         <button onClick={this.editPostHandler}>EDIT POST</button>
         <button onClick={this.deletePostHandler}>DELETE POST</button>
+        <button onClick={this.orderByHandler}>ORDER BY TITLE</button>
+        <button onClick={this.orderDirHandler}>ORDER DIR</button>
         <select onChange={this.onSelectCategoryHandler}>
           <option value="" defaultValue>Select a category...</option>
           {categories.map(category => (
@@ -129,7 +146,7 @@ class App extends Component {
           ))}
         </select>
         <ol style={{ listStyleType: 'none', padding: '0', margin: '0' }}>
-          {posts.length && posts.sort(sortBy('-voteScore')).map(post => (
+          {posts.length && posts.sort(sortBy(postsOrderBy)).map(post => (
             <div key={post.id}>
               <li style={{ cursor: 'pointer' }} onClick={() => this.onSelectPostHandler(post)}>
                 <Post post={post} postStyle={{ 'background': postSelected && (postSelected.id === post.id) ? '#ffcece' : null }}/>
@@ -156,7 +173,9 @@ const mapStateToProps = ({ posts, categories, comments }) => {
     categories: categories.categoriesList,
     category: categories.categorySelected,
     comments: comments.commentsList,
-    commentSelected: comments.commentSelected
+    commentSelected: comments.commentSelected,
+    postsOrderBy: posts.orderBy,
+    postsOrderDir: posts.orderDir
   };
 };
 
@@ -164,6 +183,8 @@ const mapDispatchToProps = dispatch => ({
   selectPost: post => dispatch(selectPostObject(post)),
   getPost: id => dispatch(getPost(id)),
   getPosts: () => dispatch(getPosts()),
+  setPostsOrderBy: () => dispatch(setPostsOrderByObject()),
+  setPostsOrderDir: () => dispatch(setPostsOrderDirObject()),
   getCategoryPosts: category => dispatch(getCategoryPosts(category)),
   setCategory: category => dispatch(setCategoryObject(category)),
   addPost: post => dispatch(addPost(post)),

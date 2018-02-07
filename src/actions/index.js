@@ -6,6 +6,8 @@ export {
 } from './Categories';
 
 export {
+  SET_POSTS_ORDER_BY,
+  SET_POSTS_ORDER_DIR,
   SELECT_POST,
   GET_POST,
   GET_POSTS,
@@ -18,7 +20,9 @@ export {
   votePost,
   editPost,
   deletePost,
-  selectPostObject
+  selectPostObject,
+  setPostsOrderByObject,
+  setPostsOrderDirObject
 } from './Posts';
 
 export {
