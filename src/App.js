@@ -19,28 +19,27 @@ import {
   setPostsOrderByObject,
   setPostsOrderDirObject
 } from './redux/actions';
-import { Post, Comment } from './components';
+import { Post, Comment, Icon } from './components';
 import { generateUUID } from './utils';
 
 class App extends Component {
   async componentDidMount() {
-    const { getCategories, getPosts } = this.props;
-    await getCategories();
-    await getPosts();
+    await this.props.getCategories();
+    await this.props.getPosts();
   }
 
   onSelectCategoryHandler = async event => {
     await this.props.setCategory(event.target.value);
-    await this.getPostsHandler();
+    this.getPostsHandler();
   }
 
   onSelectPostHandler = async post => {
     await this.props.selectPost(post);
-    await this.props.getPostComments(this.props.postSelected.id);
+    await this.props.getPostComments(post.id);
   }
 
-  onSelectCommentHandler = async comment => {
-    await this.props.selectComment(comment);
+  onSelectCommentHandler = comment => {
+    this.props.selectComment(comment);
   }
 
   getPostHandler = () => {
@@ -64,16 +63,14 @@ class App extends Component {
     });
   }
 
-  addCommentHandler = async () => {
-    await this.props.addComment({
+  addCommentHandler = () => {
+    this.props.addComment({
       id: generateUUID(),
       timestamp: Date.now(),
       body: 'This is a comment!!',
       author: 'Matheus',
       parentId: this.props.postSelected.id
     })
-    await this.props.getPosts();
-
   }
 
   editPostHandler = () => {
@@ -103,21 +100,20 @@ class App extends Component {
     this.props.voteComment(this.props.commentSelected.id, "downVote");
   }
 
-  orderByHandler = async () => {
-    this.props.postsOrderDir === 'desc'
-      ? await this.props.setPostsOrderBy('-title')
-      : await this.props.setPostsOrderBy('title')
-    await this.props.getPosts();
+  orderByHandler = event => {
+    this.props.setPostsOrderBy(event.target.value)
+    this.getPostsHandler();
   }
 
   orderDirHandler = () => {
     this.props.postsOrderDir === 'desc'
       ? this.props.setPostsOrderDir('asc')
       : this.props.setPostsOrderDir('desc')
+    this.getPostsHandler();
   }
 
   render() {
-    const { posts, categories, postSelected, comments, commentSelected, postsOrderBy } = this.props;
+    const { posts, categories, postSelected, comments, commentSelected, postsSortBy, postsOrderDir } = this.props;
 
     return (
       <div style={{ flex: 1, width: '100%' }}>
@@ -132,8 +128,7 @@ class App extends Component {
         <button onClick={this.downVoteCommentHandler}>DOWN VOTE COMMENT</button>
         <button onClick={this.editPostHandler}>EDIT POST</button>
         <button onClick={this.deletePostHandler}>DELETE POST</button>
-        <button onClick={this.orderByHandler}>ORDER BY TITLE</button>
-        <button onClick={this.orderDirHandler}>ORDER DIR</button>
+        <Icon name={postsOrderDir === 'desc' ? 'arrow-down' : 'arrow-up'} onClick={this.orderDirHandler} />
         <select onChange={this.onSelectCategoryHandler}>
           <option value="" defaultValue>Select a category...</option>
           {categories.map(category => (
@@ -145,8 +140,14 @@ class App extends Component {
             </option>
           ))}
         </select>
+        <select onChange={this.orderByHandler}>
+          <option value="voteScore" defaultValue>vote score</option>
+          <option value="title">title</option>
+          <option value="timestamp">timestamp</option>
+          <option value="author">author</option>
+        </select>
         <ol style={{ listStyleType: 'none', padding: '0', margin: '0' }}>
-          {posts.length && posts.sort(sortBy(postsOrderBy)).map(post => (
+          {posts.length && posts.sort(sortBy(postsSortBy)).map(post => (
             <div key={post.id}>
               <li style={{ cursor: 'pointer' }} onClick={() => this.onSelectPostHandler(post)}>
                 <Post post={post} postStyle={{ 'background': postSelected && (postSelected.id === post.id) ? '#ffcece' : null }}/>
@@ -175,7 +176,8 @@ const mapStateToProps = ({ posts, categories, comments }) => {
     comments: comments.commentsList,
     commentSelected: comments.commentSelected,
     postsOrderBy: posts.orderBy,
-    postsOrderDir: posts.orderDir
+    postsOrderDir: posts.orderDir,
+    postsSortBy: (posts.orderDir === 'desc' ? '-' : '') + posts.orderBy
   };
 };
 
@@ -183,8 +185,8 @@ const mapDispatchToProps = dispatch => ({
   selectPost: post => dispatch(selectPostObject(post)),
   getPost: id => dispatch(getPost(id)),
   getPosts: () => dispatch(getPosts()),
-  setPostsOrderBy: () => dispatch(setPostsOrderByObject()),
-  setPostsOrderDir: () => dispatch(setPostsOrderDirObject()),
+  setPostsOrderBy: orderBy => dispatch(setPostsOrderByObject(orderBy)),
+  setPostsOrderDir: orderDir => dispatch(setPostsOrderDirObject(orderDir)),
   getCategoryPosts: category => dispatch(getCategoryPosts(category)),
   setCategory: category => dispatch(setCategoryObject(category)),
   addPost: post => dispatch(addPost(post)),
