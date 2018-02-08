@@ -1,4 +1,4 @@
-import { url, auth } from '../api';
+import { url, auth } from '../../api';
 
 export const SET_POSTS_ORDER_BY = 'SET_POSTS_ORDER_BY';
 export const SET_POSTS_ORDER_DIR = 'SET_POSTS_ORDER_DIR';

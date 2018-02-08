@@ -1,4 +1,4 @@
-import { url, auth } from '../api';
+import { url, auth } from '../../api';
 
 export const SELECT_COMMENT = 'SELECT_COMMENT';
 export const GET_COMMENT = 'GET_COMMENT';

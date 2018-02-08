@@ -18,7 +18,7 @@ import {
   selectCommentObject,
   setPostsOrderByObject,
   setPostsOrderDirObject
-} from './actions';
+} from './redux/actions';
 import { Post, Comment } from './components';
 import { generateUUID } from './utils';
 

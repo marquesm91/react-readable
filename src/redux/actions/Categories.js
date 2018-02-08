@@ -1,4 +1,4 @@
-import { url, auth } from '../api';
+import { url, auth } from '../../api';
 
 export const GET_CATEGORIES = 'GET_CATEGORIES';
 export const SET_CATEGORY = 'SET_CATEGORY';
