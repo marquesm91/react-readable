@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import sortBy from 'sort-by';
+import { Button } from 'antd';
 import {
   getPosts,
   getCategoryPosts,
@@ -118,7 +119,7 @@ class App extends Component {
     return (
       <div style={{ flex: 1, width: '100%' }}>
         <h1>Hello World!</h1>
-        <button onClick={this.addPostHandler}>ADD POST</button>
+        <Button onClick={this.addPostHandler}>ADD POST</Button>
         <button onClick={this.addCommentHandler}>ADD COMMENT</button>
         <button onClick={this.getPostHandler}>GET POST</button>
         <button onClick={this.getPostsHandler}>GET POSTS</button>
