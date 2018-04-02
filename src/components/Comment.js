@@ -1,10 +1,13 @@
 import React from 'react';
+import { Card } from 'antd';
 import { getTimestampAsString } from '../utils';
 
-const Comment = ({ comment, commentStyle }) => {
+const Comment = ({ item, loading }) => {
+  const comment = item;
   const { full } = getTimestampAsString(comment.timestamp);
+
   return (
-    <div style={{ ...styles.container, ...commentStyle}}>
+    <Card loading={loading} style={{ width: '100%' }}>
       <div style={styles.description}>{comment.body}</div>
       <div style={styles.description}>{full}</div>
       <div style={styles.description}>{comment.author}</div>
@@ -12,7 +15,7 @@ const Comment = ({ comment, commentStyle }) => {
       <div style={styles.description}>{comment.deleted ? 'true' : 'false'}</div>
       <div style={styles.description}>{comment.commentCount}</div>
       <div style={styles.description}>{comment.id}</div>
-    </div>
+    </Card>
   );
 };
 

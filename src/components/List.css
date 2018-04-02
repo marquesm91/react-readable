@@ -1,0 +1,9 @@
+.container-list {
+  list-style-type: none;
+  padding: 0;
+  margin-left: 15px;
+}
+
+.container-list li {
+  margin: 15px 0px;
+}

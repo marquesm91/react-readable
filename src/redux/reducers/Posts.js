@@ -24,7 +24,7 @@ const Posts = (state = initialState, action) => {
     case SELECT_POST:
       return { ...state, postSelected: action.post };
     case GET_POST:
-      return { ...state, postSelected: state.postsList.find(post => post.id === action.post.id) };
+      return { ...state, postSelected: action.post };
     case GET_POSTS:
       return { ...state, postsList: action.posts };
     case SET_POST:
