@@ -1,7 +1,7 @@
 import { SET_CATEGORY, GET_CATEGORIES } from '../actions';
 
 const initialState = {
-  categoriesList: [],
+  categoriesList: null,
   categorySelected: ''
 }
 const Categories = (state = initialState, action) => {

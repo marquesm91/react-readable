@@ -1,9 +1,18 @@
 .container-list {
   list-style-type: none;
   padding: 0;
-  margin-left: 15px;
+  margin: 0;
 }
 
-.container-list li {
-  margin: 15px 0px;
+.container-list > li ~ li {
+  margin-top: 15px;
 }
+
+/*.container-list li {
+  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
+  transition: box-shadow 0.2s linear;
+}
+
+.container-list li:hover {
+  box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.5);
+}*/

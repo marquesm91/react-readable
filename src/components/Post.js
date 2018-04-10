@@ -10,11 +10,11 @@ const Post = ({ item, loading }) => {
   if (!post) {
     return <Card loading style={{ width: '100%' }} />
   }
-  
+
   const { full } = getTimestampAsString(post.timestamp);
 
   return (
-    <Card loading={loading} style={{ width: '100%' }}>
+    <Card title={post.title} loading={loading} style={{ width: '100%' }}>
       <div className="post-description">{post.title}</div>
       <div className="post-description">{post.body}</div>
       <div className="post-description">{full}</div>

@@ -46,7 +46,7 @@ class SearchBar extends Component {
 
     return (
       <Search
-        style={{ width: '100%' }}
+        style={{ width: '100%', height: '50%', marginRight: '15px' }}
         placeholder="Search for something..."
         onSearch={this.searchHandler}
         prefix={

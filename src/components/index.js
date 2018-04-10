@@ -3,3 +3,4 @@ export * from './Comment';
 export * from './Icon';
 export * from './SearchBar';
 export * from './List';
+export * from './FixedLayout';

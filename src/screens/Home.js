@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
-import sortBy from 'sort-by';
-import { Button, Layout, Icon } from 'antd';
+import { Button, Icon } from 'antd';
 import {
   getPosts,
   getCategoryPosts,
@@ -21,17 +19,10 @@ import {
   setPostsOrderByObject,
   setPostsOrderDirObject
 } from '../redux/actions';
-import { Post, Comment, SearchBar } from '../components';
+import { Post, List } from '../components';
 import { generateUUID } from '../utils';
 
-const { Content } = Layout;
-
 class Home extends Component {
-  async componentDidMount() {
-    await this.props.getCategories();
-    await this.props.getPosts();
-  }
-
   onSelectCategoryHandler = async event => {
     await this.props.setCategory(event.target.value);
     this.getPostsHandler();
@@ -117,11 +108,10 @@ class Home extends Component {
   }
 
   render() {
-    const { posts, categories, comments, commentSelected, postsSortBy, postsOrderDir } = this.props;
+    const { posts, postsOrderDir } = this.props;
 
     return (
-      <Content style={{ margin: '25px', minHeight: '100vh', boxSizing: 'border-box' }}>
-        <SearchBar />
+      <div>
         <Button onClick={this.addPostHandler}>ADD POST</Button>
         <button onClick={this.addCommentHandler}>ADD COMMENT</button>
         <button onClick={this.getPostHandler}>GET POST</button>
@@ -133,7 +123,7 @@ class Home extends Component {
         <button onClick={this.editPostHandler}>EDIT POST</button>
         <button onClick={this.deletePostHandler}>DELETE POST</button>
         <Icon name={postsOrderDir === 'desc' ? 'arrow-down' : 'arrow-up'} onClick={this.orderDirHandler} />
-        <select onChange={this.onSelectCategoryHandler}>
+        {/*<select onChange={this.onSelectCategoryHandler}>
           <option value="" defaultValue>Select a category...</option>
           {categories.map(category => (
             <option
@@ -143,18 +133,19 @@ class Home extends Component {
               {category.name}
             </option>
           ))}
-        </select>
+        </select>*/}
         <select onChange={this.orderByHandler}>
           <option value="voteScore" defaultValue>vote score</option>
           <option value="title">title</option>
           <option value="timestamp">timestamp</option>
           <option value="author">author</option>
         </select>
-        <ol style={{ listStyleType: 'none', padding: '0', margin: '0' }}>
+        <List items={posts} item={Post} onClickItem={post => console.log(post)} />
+        {/*<ol style={{ listStyleType: 'none', padding: '0', margin: '0' }}>
           {posts.length && posts.sort(sortBy(postsSortBy)).map(post => (
             <div key={post.id}>
               <li style={{ cursor: 'pointer' }}>
-                <Link to={{ pathname: `/post/${post.id}`, state: post }}>
+                <Link to={`/${post.category}/${post.id}`}>
                   <Post
                     item={post}
                     //postStyle={{ 'background': postSelected && (postSelected.id === post.id) ? '#ffcece' : null }}
@@ -170,8 +161,8 @@ class Home extends Component {
               </ol>
             </div>
           ))}
-        </ol>
-      </Content>
+        </ol>*/}
+      </div>
     );
   }
 }

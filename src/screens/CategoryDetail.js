@@ -1,36 +1,32 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Layout } from 'antd';
 
-import { Post, Comment, List } from '../components';
-import { selectPostObject, getPost, getPostComments } from '../redux/actions';
+import { Post, List } from '../components';
+import { getPosts, getCategoryPosts } from '../redux/actions';
 
 const { Content } = Layout;
 
-class PostDetail extends Component {
-  componentWillMount() {
-    const { post_id } = this.props.match.params;
+class CategoryDetail extends Component {
+  async componentWillMount() {
+    if (!this.props.posts) {
+      const { category } = this.props.match.params;
 
-    this.props.getPost(post_id);
-    this.props.getPostComments(post_id);
+      category
+        ? await this.props.getCategoryPosts(category)
+        : await this.props.getPosts();
+    }
   }
 
-  componentWillUnmount() {
-    this.props.selectPost(null);
-  }
+  onClickPostHandler = post => this.props.history.push(`/${post.category}/${post.id}`);
 
   render() {
-    const { post, comments } = this.props;
-
-    if (post && post.error) {
-      return <Redirect to='/not-found' />;
-    }
+    const { posts } = this.props;
 
     return (
-      <Content style={{ minHeight: '100vh' }}>
-        <Post item={post} loading={!post} />
-        <List items={comments} item={Comment} onClickItem={comment => console.log(comment)} />
+      <Content style={{ minHeight: '100vh', boxSizing: 'border-box' }}>
+        <List items={posts} item={Post} onClickItem={this.onClickPostHandler} clickable />
       </Content>
     );
   }
@@ -52,11 +48,9 @@ const mapStateToProps = ({ posts, categories, comments }) => {
 };
 
 const mapDispatchToProps = dispatch => ({
-  selectPost: post => dispatch(selectPostObject(post)),
-  getPost: id => dispatch(getPost(id)),
-  getPostComments: id => dispatch(getPostComments(id)),
-  /*getPosts: () => dispatch(getPosts()),
-  setPostsOrderBy: orderBy => dispatch(setPostsOrderByObject(orderBy)),
+  getCategoryPosts: category => dispatch(getCategoryPosts(category)),
+  getPosts: () => dispatch(getPosts())
+  /*setPostsOrderBy: orderBy => dispatch(setPostsOrderByObject(orderBy)),
   setPostsOrderDir: orderDir => dispatch(setPostsOrderDirObject(orderDir)),
   getCategoryPosts: category => dispatch(getCategoryPosts(category)),
   setCategory: category => dispatch(setCategoryObject(category)),
@@ -71,6 +65,6 @@ const mapDispatchToProps = dispatch => ({
   selectComment: comment => dispatch(selectCommentObject(comment))*/
 });
 
-const PostDetailConnected = connect(mapStateToProps, mapDispatchToProps)(PostDetail);
+const CategoryDetailConnected = withRouter(connect(mapStateToProps, mapDispatchToProps)(CategoryDetail));
 
-export { PostDetailConnected as PostDetail };
+export { CategoryDetailConnected as CategoryDetail };

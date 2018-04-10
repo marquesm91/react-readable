@@ -5,6 +5,7 @@ export const SET_POSTS_ORDER_DIR = 'SET_POSTS_ORDER_DIR';
 export const SELECT_POST = 'SELECT_POST';
 export const GET_POST = 'GET_POST';
 export const GET_POSTS = 'GET_POSTS';
+export const GET_CATEGORY_POSTS = 'GET_CATEGORY_POSTS';
 export const SET_POST = 'SET_POST';
 export const DELETE_POST = 'DELETE_POST';
 
@@ -33,6 +34,11 @@ const getPostsObject = posts => ({
   posts
 });
 
+const getCategoryPostsObject = posts => ({
+  type: GET_CATEGORY_POSTS,
+  posts
+});
+
 const setPostObject = post => ({
   type: SET_POST,
   post
@@ -52,7 +58,7 @@ export const getPosts = () => dispatch => (
 export const getCategoryPosts = category => dispatch => (
   fetch(`${url}/${category}/posts`, { headers: { Authorization: auth }})
     .then(res => res.json())
-    .then(posts => dispatch(getPostsObject(posts)))
+    .then(posts => dispatch(getCategoryPostsObject(posts)))
 )
 
 export const getPost = id => dispatch => (

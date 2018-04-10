@@ -4,12 +4,13 @@ import {
   SELECT_POST,
   GET_POST,
   GET_POSTS,
+  GET_CATEGORY_POSTS,
   SET_POST,
   DELETE_POST
 } from '../actions';
 
 const initialState = {
-  postsList: [],
+  postsList: null,
   postSelected: null,
   orderBy: 'voteScore',
   orderDir: 'desc'
@@ -26,6 +27,8 @@ const Posts = (state = initialState, action) => {
     case GET_POST:
       return { ...state, postSelected: action.post };
     case GET_POSTS:
+      return { ...state, postsList: action.posts };
+    case GET_CATEGORY_POSTS:
       return { ...state, postsList: action.posts };
     case SET_POST:
       return { ...state, postsList: [...state.postsList.filter(post => post.id !== action.post.id), action.post] };

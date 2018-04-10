@@ -11,6 +11,7 @@ export {
   SELECT_POST,
   GET_POST,
   GET_POSTS,
+  GET_CATEGORY_POSTS,
   SET_POST,
   DELETE_POST,
   getPost,
