@@ -26,13 +26,13 @@ class FixedLayout extends Component {
     });
   }
 
-  loadPostsHanlder = async category => {
-    if (category === '/') {
+  loadPostsHanlder = async e => {
+    if (e.key === '/') {
       await this.props.getPosts();
       this.props.history.push('/');
     } else {
-      await this.props.getCategoryPosts(category);
-      this.props.history.push(`/${category}`);
+      await this.props.getCategoryPosts(e.key);
+      this.props.history.push(`/${e.key}`);
     }
   }
 
@@ -47,17 +47,17 @@ class FixedLayout extends Component {
           collapsed={this.state.collapsed}
         >
           <div className="logo" />
-          <Menu theme="dark" mode="inline" selectedKeys={[location.pathname]}>
+          <Menu theme="dark" mode="inline" selectedKeys={[location.pathname]} onClick={this.loadPostsHanlder}>
             <Menu.Item key="/">
-              <div className="menu-item-sidebar" onClick={() => this.loadPostsHanlder('/')}>
+              <div className="menu-item-sidebar">
                 <Icon type="user" />
                 <span>All</span>
               </div>
             </Menu.Item>
             {categories
               ? categories.map((category, index) => (
-                  <Menu.Item key={`/${category.path}`}>
-                    <div className="menu-item-sidebar" onClick={() => this.loadPostsHanlder(category.path)}>
+                  <Menu.Item key={`${category.path}`}>
+                    <div className="menu-item-sidebar">
                       <Icon type="user" />
                       <span>{category.name}</span>
                     </div>
