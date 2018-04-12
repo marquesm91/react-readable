@@ -4,61 +4,35 @@ import { Link } from 'react-router-dom';
 class Page404 extends Component {
   render() {
     return (
-      <div className="not-found-container">
-        <div className="not-found-logo-container">
-          <div className="not-found-logo"></div>
-        </div>
-        <div className="not-found-info-container">
           <div
             style={{
-              fontSize: '42px',
-              fontWeight: 900,
-              marginBottom: '15px',
-              color: '#fff'
-            }}
-          >
-            Oops,
-          </div>
-          <div
-            style={{
-              fontSize: '26px',
-              fontWeight: 900,
-              marginBottom: '15px',
-              color: '#fff'
-            }}
-          >
-            Algo deu errado :(
-          </div>
-          <div
-            style={{
+              width: '100%',
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
               fontSize: '18px',
-              fontWeight: 100,
-              marginBottom: '15px',
-              color: '#fff'
+              color: '#555'
             }}
           >
-            Error 404. Página não encontrada.
+            Error 404. Can't find this post anymore, sorry!
+            <Link to="/">
+              <button
+                style={{
+                  width: '180px',
+                  padding: '15px',
+                  background: '#001529',
+                  borderRadius: '20px',
+                  color: '#fff',
+                  fontSize: '14px',
+                  cursor: 'pointer'
+                }}
+              >
+                Back to Home
+              </button>
+            </Link>
           </div>
-          <Link to="/">
-            <button
-              style={{
-                minWidth: '300px',
-                padding: '15px',
-                background: '#fff',
-                borderRadius: '20px',
-                color: '#ffa500',
-                fontSize: '18px',
-                fontFamily: 'Montserrat',
-                fontStyle: 'sans-serif',
-                fontWeight: '900',
-                cursor: 'pointer'
-              }}
-            >
-              VOLTE À PÁGINA PRINCIPAL
-            </button>
-          </Link>
-        </div>
-      </div>
+
     );
   }
 }

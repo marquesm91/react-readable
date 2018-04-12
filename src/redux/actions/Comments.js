@@ -77,7 +77,7 @@ export const deleteComment = id => dispatch => (
     }
   })
     .then(res => res.json())
-    .then(comment => dispatch(deleteCommentObject(comment)))
+    .then(comment => dispatch(setCommentObject(comment)))
 )
 
 export const voteComment = (id, option) => dispatch => (

@@ -77,7 +77,7 @@ class FixedLayout extends Component {
             />
             <SearchBar />
           </Header>
-          <Content style={{ padding: '15px', background: '#fff', minHeight: '100vh' }}>
+          <Content style={{ padding: '15px', background: '#fff', minHeight: '100vh', position: 'relative' }}>
             {children}
           </Content>
         </Layout>

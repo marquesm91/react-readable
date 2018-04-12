@@ -101,7 +101,7 @@ export const deletePost = id => dispatch => (
     }
   })
     .then(res => res.json())
-    .then(post => dispatch(deletePostObject(post)))
+    .then(post => dispatch(setPostObject(post)))
 )
 
 export const votePost = (id, option) => dispatch => (

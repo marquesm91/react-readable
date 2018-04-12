@@ -38,7 +38,10 @@ const Posts = (state = initialState, action) => {
         postsList: [...state.postsList.filter(post => post.id !== action.post.id), action.post].sort(sortBy('-voteScore'))
       };
     case DELETE_POST:
-      return { ...state, postsList: state.postsList.filter(post => post.id !== action.post.id) };
+      return {
+        ...state,
+        postsList: state.postsList && state.postsList.filter(post => post.id !== action.post.id)
+      };
     default:
       return state;
   }

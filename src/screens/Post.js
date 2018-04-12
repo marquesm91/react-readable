@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Layout } from 'antd';
+import { Layout, Card } from 'antd';
 
 import { ListItem as SinglePost, List as Comments, FloatButton } from '../components';
 import { selectPostObject, getPost, getPostComments, setModal } from '../redux/actions';
@@ -9,11 +9,16 @@ import { selectPostObject, getPost, getPostComments, setModal } from '../redux/a
 const { Content } = Layout;
 
 class Post extends Component {
-  componentWillMount() {
+  state = {
+    loading: true
+  }
+
+  async componentDidMount() {
     const { post_id } = this.props.match.params;
 
-    this.props.getPost(post_id);
-    this.props.getPostComments(post_id);
+    await this.props.getPost(post_id);
+    await this.props.getPostComments(post_id);
+    this.setState({ loading: false });
   }
 
   componentWillUnmount() {
@@ -21,15 +26,26 @@ class Post extends Component {
   }
 
   render() {
-    const { post, comments, addNewComment } = this.props;
+    const { loading } = this.state;
+    const { postId, posts, comments, addNewComment } = this.props;
+    
+    const post = posts && posts.find(p => p.id === postId);
 
-    if (post && post.error) {
+    if (loading) {
+      return <Card loading />;
+    }
+
+    if (!post) {
       return <Redirect to='/not-found' />;
+    }
+
+    if (post && post.deleted) {
+      return <Redirect to='/' />;
     }
 
     return (
       <Content style={{ minHeight: '100vh' }}>
-        <SinglePost item={post} loading={!post} />
+        <SinglePost item={post} />
         <Comments items={comments} onClick={item => console.log(item)} />
         <FloatButton onClick={() => addNewComment(post.id)} />
       </Content>
@@ -40,7 +56,7 @@ class Post extends Component {
 const mapStateToProps = ({ posts, categories, comments }) => {
   return {
     posts: posts.postsList,
-    post: posts.postSelected,
+    postId: posts.postSelected ? posts.postSelected.id : null,
     comments: comments.commentsList
     /*categories: categories.categoriesList,
     category: categories.categorySelected,

@@ -10,6 +10,10 @@ const ListItem = ({ item, loading, votePost, editPost, deletePost, voteComment, 
     return <Card loading />
   }
 
+  if (item.deleted) {
+    return null;
+  }
+
   const { full } = getTimestampAsString(item.timestamp);
   const isPost = item && item.title !== undefined;
 
