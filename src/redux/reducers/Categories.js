@@ -2,7 +2,7 @@ import { SET_CATEGORY, GET_CATEGORIES } from '../actions';
 
 const initialState = {
   categoriesList: null,
-  categorySelected: ''
+  categorySelected: '/'
 }
 const Categories = (state = initialState, action) => {
   switch (action.type) {

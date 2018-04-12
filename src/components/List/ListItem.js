@@ -5,12 +5,13 @@ import { Card, Icon, Button, Popconfirm } from 'antd';
 import { votePost, deletePost, voteComment, deleteComment, setModal } from '../../redux/actions';
 import { getTimestampAsString } from '../../utils';
 
-const ListItem = ({ item, loading, onClick, clicklable, votePost, editPost, deletePost, voteComment, editComment, deleteComment }) => {
+const ListItem = ({ item, loading, onClick, clicklable, categorySelected, votePost, editPost, deletePost, voteComment, editComment, deleteComment }) => {
   if (!item) {
     return <Card loading />
   }
 
-  if (item.deleted) {
+  console.log(categorySelected !== '/' && item.category !== categorySelected);
+  if (item.deleted || (categorySelected !== '/' && item.category !== categorySelected)) {
     return null;
   }
 
@@ -68,6 +69,10 @@ const ListItem = ({ item, loading, onClick, clicklable, votePost, editPost, dele
   );
 };
 
+const mapStateToProps = ({ categories }) => ({
+  categorySelected: categories.categorySelected
+})
+
 const mapDispatchToProps = dispatch => ({
   votePost: (id, option) => dispatch(votePost(id, option)),
   deletePost: id => dispatch(deletePost(id)),
@@ -77,6 +82,6 @@ const mapDispatchToProps = dispatch => ({
   editComment: comment => dispatch(setModal({ id: comment.id, body: comment.body, author: comment.author }))
 });
 
-const ListItemConnected = connect(null, mapDispatchToProps)(ListItem);
+const ListItemConnected = connect(mapStateToProps, mapDispatchToProps)(ListItem);
 
 export { ListItemConnected as ListItem };

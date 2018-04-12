@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Layout, Menu, Icon } from 'antd';
-import { getPosts, getCategoryPosts, getCategories } from '../redux/actions';
+import { getPosts, getCategoryPosts, getCategories, setCategoryObject } from '../redux/actions';
 import { SearchBar, Modal } from '../components';
 
 import './FixedLayout.css';
@@ -27,13 +27,10 @@ class FixedLayout extends Component {
   }
 
   loadPostsHanlder = async e => {
-    if (e.key === '/') {
-      await this.props.getPosts();
-      this.props.history.push('/');
-    } else {
-      await this.props.getCategoryPosts(e.key);
-      this.props.history.push(`/${e.key}`);
-    }
+    this.props.setCategory(e.key);
+    e.key === '/'
+      ? this.props.history.push('/')
+      : this.props.history.push(`/${e.key}`);
   }
 
   render() {
@@ -95,6 +92,7 @@ const mapStateToProps = ({ posts, categories }) => ({
 const mapDispatchToProps = dispatch => ({
   getPosts: () => dispatch(getPosts()),
   getCategories: () => dispatch(getCategories()),
+  setCategory: category => dispatch(setCategoryObject(category)),
   getCategoryPosts: category => dispatch(getCategoryPosts(category))
 });
 
