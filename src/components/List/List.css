@@ -16,3 +16,22 @@
 .container-list li:hover {
   box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.5);
 }*/
+
+.list-item-container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+.list-item-left-info-container {
+  display: flex;
+  flex-direction: column;
+  width: 20%;
+}
+
+.list-item-content-container {
+}
+
+.list-item-tag-category {
+  color: #40a9ff;
+}

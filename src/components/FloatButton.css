@@ -1,0 +1,56 @@
+.float-button {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  width: 50px;
+  height: 50px;
+  background: #001529;
+
+  border: none;
+  border-radius: 50%;
+
+  color: #fff;
+  font-weight: bold;
+  font-size: 25px;
+
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+
+  -webkit-transition: transform 0.32s cubic-bezier(0.165, 0.84, 0.44, 1);
+  /* width 0.1s linear 0s, visibility 0.32s linear 0.64s, */
+  transition: transform 0.15s linear 0s, width 0.05s linear 0.02s;
+}
+
+.fade-in {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear 0s, opacity .32s;
+}
+
+.fade-out {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 0s, opacity .12s;
+}
+
+.float-button .float-button-text {
+  position: absolute;
+}
+
+.float-button:hover {
+  transform: scale(1.2, 1.2);
+  width: 100px;
+  font-size: 14px;
+  border-radius: 25px;
+}
+
+.float-button:active {
+  transform: scale(1.05, 1.05);
+}
+
+.float-button:focus {
+  outline: 0;
+}

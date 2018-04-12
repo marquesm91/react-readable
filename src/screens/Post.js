@@ -3,12 +3,12 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Layout } from 'antd';
 
-import { Post, Comment, List } from '../components';
-import { selectPostObject, getPost, getPostComments } from '../redux/actions';
+import { ListItem as SinglePost, List as Comments, FloatButton } from '../components';
+import { selectPostObject, getPost, getPostComments, setModal } from '../redux/actions';
 
 const { Content } = Layout;
 
-class PostDetail extends Component {
+class Post extends Component {
   componentWillMount() {
     const { post_id } = this.props.match.params;
 
@@ -21,7 +21,7 @@ class PostDetail extends Component {
   }
 
   render() {
-    const { post, comments } = this.props;
+    const { post, comments, addNewComment } = this.props;
 
     if (post && post.error) {
       return <Redirect to='/not-found' />;
@@ -29,8 +29,9 @@ class PostDetail extends Component {
 
     return (
       <Content style={{ minHeight: '100vh' }}>
-        <Post item={post} loading={!post} />
-        <List items={comments} item={Comment} onClickItem={comment => console.log(comment)} />
+        <SinglePost item={post} loading={!post} />
+        <Comments items={comments} onClick={item => console.log(item)} />
+        <FloatButton onClick={() => addNewComment(post.id)} />
       </Content>
     );
   }
@@ -55,6 +56,7 @@ const mapDispatchToProps = dispatch => ({
   selectPost: post => dispatch(selectPostObject(post)),
   getPost: id => dispatch(getPost(id)),
   getPostComments: id => dispatch(getPostComments(id)),
+  addNewComment: parentId => dispatch(setModal({ id: parentId, body: '', author: '' })),
   /*getPosts: () => dispatch(getPosts()),
   setPostsOrderBy: orderBy => dispatch(setPostsOrderByObject(orderBy)),
   setPostsOrderDir: orderDir => dispatch(setPostsOrderDirObject(orderDir)),
@@ -71,6 +73,6 @@ const mapDispatchToProps = dispatch => ({
   selectComment: comment => dispatch(selectCommentObject(comment))*/
 });
 
-const PostDetailConnected = connect(mapStateToProps, mapDispatchToProps)(PostDetail);
+const PostConnected = connect(mapStateToProps, mapDispatchToProps)(Post);
 
-export { PostDetailConnected as PostDetail };
+export { PostConnected as Post };

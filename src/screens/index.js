@@ -1,4 +1,3 @@
-export * from './Home';
-export * from './PostDetail';
+export * from './Post';
 export * from './Page404';
-export * from './CategoryDetail';
+export * from './Posts';

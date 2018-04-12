@@ -40,3 +40,8 @@ export {
   deleteComment,
   selectCommentObject
 } from './Comments';
+
+export {
+  SET_MODAL,
+  setModal
+} from './Modal';

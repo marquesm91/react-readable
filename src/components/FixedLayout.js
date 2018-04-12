@@ -3,7 +3,7 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Layout, Menu, Icon } from 'antd';
 import { getPosts, getCategoryPosts, getCategories } from '../redux/actions';
-import { SearchBar } from '../components';
+import { SearchBar, Modal } from '../components';
 
 import './FixedLayout.css';
 
@@ -37,6 +37,7 @@ class FixedLayout extends Component {
   }
 
   render() {
+    const { collapsed } = this.state;
     const { children, categories, location } = this.props;
 
     return (
@@ -44,18 +45,18 @@ class FixedLayout extends Component {
         <Sider
           trigger={null}
           collapsible
-          collapsed={this.state.collapsed}
+          collapsed={collapsed}
         >
-          <div className="logo" />
-          <Menu theme="dark" mode="inline" selectedKeys={[location.pathname]} onClick={this.loadPostsHanlder}>
+          <div className="logo">{collapsed ? 'R' : 'Readable'}</div>
+          <Menu theme="dark" mode="inline" selectedKeys={[location.pathname.substring(1) || '/']} onClick={this.loadPostsHanlder}>
             <Menu.Item key="/">
               <div className="menu-item-sidebar">
                 <Icon type="user" />
-                <span>All</span>
+                <span>All Categories</span>
               </div>
             </Menu.Item>
             {categories
-              ? categories.map((category, index) => (
+              ? categories.map(category => (
                   <Menu.Item key={`${category.path}`}>
                     <div className="menu-item-sidebar">
                       <Icon type="user" />
@@ -80,6 +81,7 @@ class FixedLayout extends Component {
             {children}
           </Content>
         </Layout>
+        <Modal />
       </Layout>
     );
   }

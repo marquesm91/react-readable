@@ -3,12 +3,12 @@ import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Layout } from 'antd';
 
-import { Post, List } from '../components';
-import { getPosts, getCategoryPosts } from '../redux/actions';
+import { List as PostList, FloatButton } from '../components';
+import { getPosts, getCategoryPosts, setModal } from '../redux/actions';
 
 const { Content } = Layout;
 
-class CategoryDetail extends Component {
+class Posts extends Component {
   async componentWillMount() {
     if (!this.props.posts) {
       const { category } = this.props.match.params;
@@ -22,34 +22,32 @@ class CategoryDetail extends Component {
   onClickPostHandler = post => this.props.history.push(`/${post.category}/${post.id}`);
 
   render() {
-    const { posts } = this.props;
+    const { posts, addNewPost } = this.props;
 
     return (
       <Content style={{ minHeight: '100vh', boxSizing: 'border-box' }}>
-        <List items={posts} item={Post} onClickItem={this.onClickPostHandler} clickable />
+        <PostList items={posts} onClick={this.onClickPostHandler} clickable />
+        <FloatButton onClick={() => addNewPost()} />
       </Content>
     );
   }
 }
 
-const mapStateToProps = ({ posts, categories, comments }) => {
-  return {
-    posts: posts.postsList,
-    post: posts.postSelected,
-    comments: comments.commentsList
-    /*categories: categories.categoriesList,
-    category: categories.categorySelected,
-    comments: comments.commentsList,
-    commentSelected: comments.commentSelected,
-    postsOrderBy: posts.orderBy,
-    postsOrderDir: posts.orderDir,
-    postsSortBy: (posts.orderDir === 'desc' ? '-' : '') + posts.orderBy*/
-  };
-};
+const mapStateToProps = ({ posts }) => ({
+  posts: posts.postsList,
+  /*categories: categories.categoriesList,
+  category: categories.categorySelected,
+  comments: comments.commentsList,
+  commentSelected: comments.commentSelected,
+  postsOrderBy: posts.orderBy,
+  postsOrderDir: posts.orderDir,
+  postsSortBy: (posts.orderDir === 'desc' ? '-' : '') + posts.orderBy*/
+});
 
 const mapDispatchToProps = dispatch => ({
   getCategoryPosts: category => dispatch(getCategoryPosts(category)),
-  getPosts: () => dispatch(getPosts())
+  getPosts: () => dispatch(getPosts()),
+  addNewPost: () => dispatch(setModal({ title: '', body: '', author: '', category: '' })),
   /*setPostsOrderBy: orderBy => dispatch(setPostsOrderByObject(orderBy)),
   setPostsOrderDir: orderDir => dispatch(setPostsOrderDirObject(orderDir)),
   getCategoryPosts: category => dispatch(getCategoryPosts(category)),
@@ -65,6 +63,6 @@ const mapDispatchToProps = dispatch => ({
   selectComment: comment => dispatch(selectCommentObject(comment))*/
 });
 
-const CategoryDetailConnected = withRouter(connect(mapStateToProps, mapDispatchToProps)(CategoryDetail));
+const PostsConnected = withRouter(connect(mapStateToProps, mapDispatchToProps)(Posts));
 
-export { CategoryDetailConnected as CategoryDetail };
+export { PostsConnected as Posts };
