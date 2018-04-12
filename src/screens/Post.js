@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Layout, Card } from 'antd';
 
 import { ListItem as SinglePost, List as Comments, FloatButton } from '../components';
-import { selectPostObject, getPost, getPostComments, setModal } from '../redux/actions';
+import { getPosts, selectPostObject, getPost, getPostComments, setModal } from '../redux/actions';
 
 const { Content } = Layout;
 
@@ -16,6 +16,9 @@ class Post extends Component {
   async componentDidMount() {
     const { post_id } = this.props.match.params;
 
+    if (!this.props.posts) {
+      await this.props.getPosts();
+    }
     await this.props.getPost(post_id);
     await this.props.getPostComments(post_id);
     this.setState({ loading: false });
@@ -28,7 +31,7 @@ class Post extends Component {
   render() {
     const { loading } = this.state;
     const { postId, posts, comments, addNewComment } = this.props;
-    
+
     const post = posts && posts.find(p => p.id === postId);
 
     if (loading) {
@@ -73,8 +76,8 @@ const mapDispatchToProps = dispatch => ({
   getPost: id => dispatch(getPost(id)),
   getPostComments: id => dispatch(getPostComments(id)),
   addNewComment: parentId => dispatch(setModal({ id: parentId, body: '', author: '' })),
-  /*getPosts: () => dispatch(getPosts()),
-  setPostsOrderBy: orderBy => dispatch(setPostsOrderByObject(orderBy)),
+  getPosts: () => dispatch(getPosts()),
+  /*setPostsOrderBy: orderBy => dispatch(setPostsOrderByObject(orderBy)),
   setPostsOrderDir: orderDir => dispatch(setPostsOrderDirObject(orderDir)),
   getCategoryPosts: category => dispatch(getCategoryPosts(category)),
   setCategory: category => dispatch(setCategoryObject(category)),
