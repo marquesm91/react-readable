@@ -6,7 +6,7 @@ import { ListItem } from '../index';
 
 import './List.css';
 
-const List = ({ items, sortBy, clickable, onClick }) => {
+const List = ({ items, sortBy, onClick, clicklable }) => {
   if (!items) {
     return [
       <Card key="1" loading style={{ width: '100%' }} />,
@@ -22,8 +22,8 @@ const List = ({ items, sortBy, clickable, onClick }) => {
   return (
     <ol className="container-list">
       {itemsBeforeMap.map(item => (
-        <li key={item.id} style={{ cursor: clickable ? 'pointer' : 'default' }} onClick={() => onClick(item)}>
-          <ListItem item={item} />
+        <li key={item.id}>
+          <ListItem item={item} onClick={itemClicked => onClick(itemClicked)} clicklable={clicklable} />
         </li>
       ))}
     </ol>

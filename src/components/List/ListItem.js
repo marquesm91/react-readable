@@ -5,7 +5,7 @@ import { Card, Icon, Button, Popconfirm } from 'antd';
 import { votePost, deletePost, voteComment, deleteComment, setModal } from '../../redux/actions';
 import { getTimestampAsString } from '../../utils';
 
-const ListItem = ({ item, loading, votePost, editPost, deletePost, voteComment, editComment, deleteComment }) => {
+const ListItem = ({ item, loading, onClick, clicklable, votePost, editPost, deletePost, voteComment, editComment, deleteComment }) => {
   if (!item) {
     return <Card loading />
   }
@@ -35,7 +35,12 @@ const ListItem = ({ item, loading, votePost, editPost, deletePost, voteComment, 
         <div className="list-item-content-container">
           {isPost
             ? <div className="list-item-header">
-                <div>{item.title}</div>
+                <span
+                  className={`list-item-title ${clicklable ? 'hover-effects' : ''}`}
+                  onClick={e => {e.stopPropagation(); clicklable ? onClick(item) : null}}
+                >
+                  {item.title}
+                </span>
               </div>
             : null
           }

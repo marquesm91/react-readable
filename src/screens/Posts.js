@@ -26,7 +26,7 @@ class Posts extends Component {
 
     return (
       <Content style={{ minHeight: '100vh', boxSizing: 'border-box' }}>
-        <PostList items={posts} onClick={this.onClickPostHandler} clickable />
+        <PostList items={posts} onClick={this.onClickPostHandler} clicklable />
         <FloatButton onClick={() => addNewPost()} />
       </Content>
     );

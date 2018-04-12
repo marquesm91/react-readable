@@ -30,6 +30,17 @@
 }
 
 .list-item-content-container {
+  width: 100%;
+}
+
+.list-item-title {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.list-item-title.hover-effects:hover {
+  text-decoration: underline;
+  cursor: pointer;
 }
 
 .list-item-tag-category {
