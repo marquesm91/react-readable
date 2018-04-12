@@ -44,10 +44,10 @@ const setPostObject = post => ({
   post
 });
 
-const deletePostObject = post => ({
+/*const deletePostObject = post => ({
   type: DELETE_POST,
   post
-});
+});*/
 
 export const getPosts = () => dispatch => (
   fetch(`${url}/posts`, { headers: { Authorization: auth }})

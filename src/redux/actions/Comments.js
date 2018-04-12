@@ -26,10 +26,10 @@ const setCommentObject = comment => ({
   comment
 });
 
-const deleteCommentObject = comment => ({
+/*const deleteCommentObject = comment => ({
   type: DELETE_COMMENT,
   comment
-});
+});*/
 
 export const getPostComments = id => dispatch => (
   fetch(`${url}/posts/${id}/comments`, { headers: { Authorization: auth }})
