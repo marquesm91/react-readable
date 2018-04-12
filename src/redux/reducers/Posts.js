@@ -8,7 +8,8 @@ import {
   GET_POSTS,
   GET_CATEGORY_POSTS,
   SET_POST,
-  DELETE_POST
+  DELETE_POST,
+  UPDATE_POST_COMMENTCOUNT
 } from '../actions';
 
 const initialState = {
@@ -41,6 +42,18 @@ const Posts = (state = initialState, action) => {
       return {
         ...state,
         postsList: state.postsList && state.postsList.filter(post => post.id !== action.post.id)
+      };
+    case UPDATE_POST_COMMENTCOUNT:
+      const postToUpdate = state.postsList.find(post => post.id === action.postId)
+      return {
+        ...state,
+        postsList: [
+          ...state.postsList.filter(post => post.id !== action.postId),
+          {
+            ...postToUpdate,
+            commentCount: action.commentDeleted ? (postToUpdate.commentCount - 1) : (postToUpdate.commentCount + 1)
+          }
+        ].sort(sortBy('-voteScore'))
       };
     default:
       return state;

@@ -8,6 +8,7 @@ export const GET_POSTS = 'GET_POSTS';
 export const GET_CATEGORY_POSTS = 'GET_CATEGORY_POSTS';
 export const SET_POST = 'SET_POST';
 export const DELETE_POST = 'DELETE_POST';
+export const UPDATE_POST_COMMENTCOUNT = 'UPDATE_POST_COMMENTCOUNT';
 
 export const setPostsOrderByObject = orderBy => ({
   type: SET_POSTS_ORDER_BY,
@@ -43,6 +44,12 @@ const setPostObject = post => ({
   type: SET_POST,
   post
 });
+
+export const updatePostCommentCount = (postId, commentDeleted) => ({
+  type: UPDATE_POST_COMMENTCOUNT,
+  postId,
+  commentDeleted
+})
 
 /*const deletePostObject = post => ({
   type: DELETE_POST,

@@ -1,4 +1,5 @@
 import { url, auth } from '../../api';
+import { updatePostCommentCount } from './index';
 
 export const SELECT_COMMENT = 'SELECT_COMMENT';
 export const GET_COMMENT = 'GET_COMMENT';
@@ -54,6 +55,7 @@ export const addComment = comment => dispatch => (
   })
     .then(res => res.json())
     .then(comment => dispatch(setCommentObject(comment)))
+    .then(({ comment }) => dispatch(updatePostCommentCount(comment.parentId, comment.deleted)))
 )
 
 export const editComment = (id, content) => dispatch => (
@@ -78,6 +80,7 @@ export const deleteComment = id => dispatch => (
   })
     .then(res => res.json())
     .then(comment => dispatch(setCommentObject(comment)))
+    .then(({ comment }) => dispatch(updatePostCommentCount(comment.parentId, comment.deleted)))
 )
 
 export const voteComment = (id, option) => dispatch => (

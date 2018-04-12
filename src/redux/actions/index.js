@@ -14,6 +14,8 @@ export {
   GET_CATEGORY_POSTS,
   SET_POST,
   DELETE_POST,
+  UPDATE_POST_COMMENTCOUNT,
+  updatePostCommentCount,
   getPost,
   getPosts,
   getCategoryPosts,
