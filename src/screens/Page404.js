@@ -28,7 +28,7 @@ class Page404 extends Component {
                   cursor: 'pointer'
                 }}
               >
-                Back to Home
+                Back to All Categories
               </button>
             </Link>
           </div>
