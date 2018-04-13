@@ -3,28 +3,36 @@ import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Card, Icon, Button, Popconfirm } from 'antd';
 
-import { votePost, deletePost, voteComment, deleteComment, setModal } from '../../redux/actions';
 import { getTimestampAsString } from '../../utils';
 
+import {
+  votePost,
+  deletePost,
+  voteComment,
+  deleteComment,
+  setModal
+} from '../../redux/actions';
+
 const ListItem = ({ item, loading, onClick, clicklable, isDetailsScreen, category, ...props }) => {
-  if (!item || loading) {
+  //console.log(item, loading);
+  if (loading) {
     return <Card loading />
   }
 
-  // when loading is false and can't find any item redirect to 404 not found
-  if (item === undefined) {
+  // when loading is false and can't find any item (result -1) redirect to 404 not found
+  if (item === -1) {
     return <Redirect to="/not-found" />;
   }
 
-  const isPost = item && item.title !== undefined;
-  if (item.deleted) {
+  if (item === undefined) {
+    console.log(item)
     // Redirect to props.category when is a deleted Post and is in Post screen
-    if (isPost && isDetailsScreen) {
-      return <Redirect to={category === '/' ? category : `/${category}`} />;
-    } else {
-      return null; // Remove from List when is a deleted Comment or a deleted Post in Posts screen
-    }
+    return isDetailsScreen
+      ? <Redirect to={category === '/' ? category : `/${category}`} />
+      : null;
   }
+
+  const isPost = item && item.title !== undefined;
 
   return (
     <Card>
@@ -77,8 +85,8 @@ const ListItem = ({ item, loading, onClick, clicklable, isDetailsScreen, categor
   );
 };
 
-const mapStateToProps = ({ categories, loader }, ownProps) => ({
-  category: categories.categorySelected,
+const mapStateToProps = ({ category, loader }, ownProps) => ({
+  category: category.selected,
   loading: loader,
   // isDetailsScreen will check if url path is in Post or Posts
   // Post has Comment List -> category is irrelevant and filter won't be necessary

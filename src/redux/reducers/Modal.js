@@ -1,4 +1,6 @@
-import { SET_MODAL } from '../actions';
+import {
+  SET_MODAL
+} from '../actions';
 
 const initialState = null;
 

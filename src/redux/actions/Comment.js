@@ -1,12 +1,11 @@
 import { url, auth } from '../../api';
 import { updatePostCommentCount } from './index';
 
-export const GET_COMMENTS = 'GET_COMMENTS';
+export const SET_COMMENTS = 'SET_COMMENTS';
 export const SET_COMMENT = 'SET_COMMENT';
-export const DELETE_COMMENT = 'DELETE_COMMENT';
 
-const getCommentsObject = comments => ({
-  type: GET_COMMENTS,
+export const setComments = comments => ({
+  type: SET_COMMENTS,
   comments
 });
 
@@ -18,7 +17,7 @@ const setCommentObject = comment => ({
 export const getPostComments = id => dispatch => (
   fetch(`${url}/posts/${id}/comments`, { headers: { Authorization: auth }})
     .then(res => res.json())
-    .then(comments => dispatch(getCommentsObject(comments)))
+    .then(comments => dispatch(setComments(comments)))
 )
 
 export const addComment = comment => dispatch => (

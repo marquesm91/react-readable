@@ -1,6 +1,6 @@
-export const SET_QUERY = 'SET_QUERY';
+export const SET_QUERY_SEARCH = 'SET_QUERY_SEARCH';
 
-export const setQuery = query => ({
-  type: SET_QUERY,
+export const setQuerySearch = query => ({
+  type: SET_QUERY_SEARCH,
   query
 });

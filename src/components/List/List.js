@@ -45,11 +45,11 @@ const List = ({ items, loading, onClick, clicklable, orderBy, orderDir, target, 
   );
 };
 
-const mapStateToProps = ({ posts, categories, filter, search, loader }, ownProps) => ({
-  category: categories.categorySelected,
+const mapStateToProps = ({ post, category, filter, search, loader }, ownProps) => ({
+  category: category.selected,
   orderBy: filter.orderBy,
   orderDir: filter.orderDir,
-  target: filter.targetFilters,
+  target: filter.target,
   query: search,
   loading: loader,
   // isDetailsScreen will check if url path is in Post or Posts

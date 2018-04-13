@@ -45,12 +45,12 @@ class FloatButton extends PureComponent {
   }
 };
 
-const mapStateToProps = ({ posts, comments, categories }, ownProps) => ({
-  postSelected: posts.postsList && posts.postsList.find(p => p.id === ownProps.match.params.post_id),
-  howManyPostOfCategory: posts.howManyPosts[categories.categorySelected],
-  category: categories.categorySelected === '/' || ownProps.match.path === '/:category/:post_id'
+const mapStateToProps = ({ post, comment, category }, ownProps) => ({
+  postSelected: post.list && post.list.find(p => p.id === ownProps.match.params.post_id),
+  howManyPostOfCategory: post.categoryCount[category.selected],
+  category: category.selected === '/' || ownProps.match.path === '/:category/:post_id'
     ? ''
-    : categories.categorySelected[0].toUpperCase() + categories.categorySelected.substring(1),
+    : category.selected[0].toUpperCase() + category.selected.substring(1),
   // isDetailsScreen will check if url path is in Post or Posts
   // Post has Comment List -> category is irrelevant and filter won't be necessary
   // Posts has Posts List -> category is relevant and filter will be necessary but only if category is different to '/'

@@ -7,49 +7,52 @@ export {
   SET_CATEGORY,
   GET_CATEGORIES,
   getCategories,
-  setCategoryObject
-} from './Categories';
+  setCategory
+} from './Category';
 
 export {
-  SET_FILTER_ORDER_DIR,
-  SET_FILTER_ORDER_BY,
-  SET_TARGET_FILTERS,
-  setFilterOrderDir,
-  setFilterOrderBy,
-  setTargetFilters
+  SET_ORDER_DIR,
+  SET_ORDER_BY,
+  SET_TARGET,
+  setOrderDirFilter,
+  setOrderByFilter,
+  setTargetFilter
 } from './Filter';
 
 export {
-  SET_QUERY,
-  setQuery
+  SET_QUERY_SEARCH,
+  setQuerySearch
 } from './Search';
 
 export {
   SELECT_POST,
   GET_POSTS,
   SET_POST,
+  DELETE_POST,
   UPDATE_POST_COMMENTCOUNT,
   SET_HOWMANY_POSTS,
   ADD_HOWMANY_POSTS,
   DELETE_HOWMANY_POSTS,
   getPosts,
+  selectPost,
   getPost,
   addPost,
   votePost,
   editPost,
   deletePost,
   updatePostCommentCount
-} from './Posts';
+} from './Post';
 
 export {
-  GET_COMMENTS,
+  SET_COMMENTS,
   SET_COMMENT,
   getPostComments,
+  setComments,
   addComment,
   voteComment,
   editComment,
   deleteComment
-} from './Comments';
+} from './Comment';
 
 export {
   SET_MODAL,

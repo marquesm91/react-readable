@@ -2,15 +2,20 @@ import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Layout, Menu, Icon, Select } from 'antd';
+
+import {
+  SearchBar,
+  Modal
+} from '../components';
+
 import {
   getPosts,
   getCategories,
-  setCategoryObject,
-  setFilterOrderDir,
-  setFilterOrderBy,
-  setTargetFilters
+  setCategory,
+  setOrderByFilter,
+  setOrderDirFilter,
+  setTargetFilter
 } from '../redux/actions';
-import { SearchBar, Modal } from '../components';
 
 import './FixedLayout.css';
 
@@ -53,17 +58,17 @@ class FixedLayout extends Component {
             ? <div className="filters-container">
                 <div className="filters-container-title">Filters</div>
                 <span>Apply to</span>
-                <Select value={targetFilters} onChange={value => this.props.setTargetFilters(value)}>
+                <Select value={targetFilters} onChange={value => this.props.setTargetFilter(value)}>
                   <Option value="post">Posts</Option>
                   <Option value="comment">Comments</Option>
                 </Select>
                 <span>Order by</span>
-                <Select value={orderBy} onChange={value => this.props.setFilterOrderBy(value)}>
+                <Select value={orderBy} onChange={value => this.props.setOrderByFilter(value)}>
                   <Option value="voteScore">Vote score</Option>
                   <Option value="timestamp">Date</Option>
                 </Select>
                 <span>Order direction</span>
-                <Select value={orderDir} onChange={value => this.props.setFilterOrderDir(value)}>
+                <Select value={orderDir} onChange={value => this.props.setOrderDirFilter(value)}>
                   <Option value="old">{orderBy === 'timestamp' ? 'Most older' : 'Less rated'}</Option>
                   <Option value="new">{orderBy === 'timestamp' ? 'Most newer' : 'Most rated'}</Option>
                 </Select>
@@ -109,21 +114,21 @@ class FixedLayout extends Component {
   }
 }
 
-const mapStateToProps = ({ posts, categories, filter }) => ({
-  posts: posts.postsList,
-  categories: categories.categoriesList,
+const mapStateToProps = ({ post, category, filter }) => ({
+  posts: post.list,
+  categories: category.list,
   orderBy: filter.orderBy,
   orderDir: filter.orderDir,
-  targetFilters: filter.targetFilters
+  targetFilters: filter.target
 });
 
 const mapDispatchToProps = dispatch => ({
   getPosts: () => dispatch(getPosts()),
   getCategories: () => dispatch(getCategories()),
-  setCategory: category => dispatch(setCategoryObject(category)),
-  setFilterOrderBy: orderBy => dispatch(setFilterOrderBy(orderBy)),
-  setFilterOrderDir: orderDir => dispatch(setFilterOrderDir(orderDir)),
-  setTargetFilters: targetFilters => dispatch(setTargetFilters(targetFilters))
+  setCategory: category => dispatch(setCategory(category)),
+  setOrderByFilter: orderBy => dispatch(setOrderByFilter(orderBy)),
+  setOrderDirFilter: orderDir => dispatch(setOrderDirFilter(orderDir)),
+  setTargetFilter: targetFilters => dispatch(setTargetFilter(targetFilters))
 });
 
 const FixedLayoutConnected = withRouter(connect(mapStateToProps, mapDispatchToProps)(FixedLayout));

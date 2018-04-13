@@ -2,8 +2,15 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Modal as ModalAntd, Form, Input, Button, Select, Row, Col } from 'antd';
 
-import { addPost, editPost, addComment, editComment, setModal } from '../redux/actions';
 import { generateUUID } from '../utils';
+
+import {
+  addPost,
+  editPost,
+  addComment,
+  editComment,
+  setModal
+} from '../redux/actions';
 
 const FormItem = Form.Item;
 const { TextArea } = Input;
@@ -158,9 +165,9 @@ class Modal extends Component {
   }
 }
 
-const mapStateToProps = ({ modal, categories }) => ({
+const mapStateToProps = ({ modal, category }) => ({
   modal,
-  category: categories.categorySelected === '/' ? '' : categories.categorySelected
+  category: category.selected === '/' ? '' : category.selected
 });
 
 const mapDispatchToProps = dispatch => ({

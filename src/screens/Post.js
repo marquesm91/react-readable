@@ -2,26 +2,52 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Layout } from 'antd';
 
-import { ListItem as SinglePost, List as Comments, FloatButton } from '../components';
-import { getPosts, getPost, getPostComments, setModal, setAPIFetching } from '../redux/actions';
+import {
+  ListItem as SinglePost,
+  List as Comments,
+  FloatButton
+} from '../components';
+
+import {
+  getPosts,
+  getPost,
+  selectPost,
+  setComments,
+  getPostComments,
+  setModal,
+  setAPIFetching
+} from '../redux/actions';
 
 const { Content } = Layout;
 
 class Post extends Component {
-  componentDidMount() {
+  async componentWillMount() {
     const { post_id } = this.props.match.params;
 
     this.props.setAPIFetching(true);
-    Promise.all([
-      !this.props.posts ? this.props.getPosts() : null,
-      this.props.getPost(post_id),
-      this.props.getPostComments(post_id)
-    ])
-      .then(() => this.props.setAPIFetching(false));
+    if (this.props.posts.length === 0) {
+      await this.props.getPosts();
+    }
+    await this.props.getPost(post_id);
+    await this.props.getPostComments(post_id);
+    this.props.setAPIFetching(false);
+  }
+
+  componentWillUnmount() {
+    if (this.props.post) {
+      this.props.selectPost(null);
+      this.props.setComments([]);
+    }
   }
 
   render() {
-    const { post, comments, addNewComment, loading } = this.props;
+    const { posts, postSelectedId, comments, addNewComment, loading } = this.props;
+
+    const post = postSelectedId === -1
+      ? -1 // -1 is a special case when fetch for a post that doesn't exist anymore in API
+      : posts.find(p => p.id === postSelectedId);
+
+      console.log(postSelectedId);
 
     return (
       <Content style={{ minHeight: '100vh' }}>
@@ -33,15 +59,18 @@ class Post extends Component {
   }
 }
 
-const mapStateToProps = ({ posts, comments, loader }) => ({
-  post: posts.postsList && posts.postsList.find(p => p.id === posts.postSelected),
-  comments: comments.commentsList,
+const mapStateToProps = ({ post, comment, loader }) => ({
+  posts: post.list,
+  postSelectedId: post.selected,
+  comments: comment,
   loading: loader
 });
 
 const mapDispatchToProps = dispatch => ({
   getPosts: () => dispatch(getPosts()),
   getPost: id => dispatch(getPost(id)),
+  selectPost: id => dispatch(selectPost(id)),
+  setComments: id => dispatch(setComments(id)),
   getPostComments: id => dispatch(getPostComments(id)),
   addNewComment: parentId => dispatch(setModal({ id: parentId, body: '', author: '' })),
   setAPIFetching: apiFetching => dispatch(setAPIFetching(apiFetching))

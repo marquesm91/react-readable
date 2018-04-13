@@ -1,18 +1,18 @@
-export const SET_TARGET_FILTERS = 'SET_TARGET_FILTERS';
-export const SET_FILTER_ORDER_DIR = 'SET_FILTER_ORDER_DIR';
-export const SET_FILTER_ORDER_BY = 'SET_FILTER_ORDER_BY';
+export const SET_TARGET = 'SET_TARGET';
+export const SET_ORDER_BY = 'SET_ORDER_BY';
+export const SET_ORDER_DIR = 'SET_ORDER_DIR';
 
-export const setTargetFilters = targetFilters => ({
-  type: SET_TARGET_FILTERS,
-  targetFilters
+export const setTargetFilter = target => ({
+  type: SET_TARGET,
+  target
 });
 
-export const setFilterOrderBy = orderBy => ({
-  type: SET_FILTER_ORDER_BY,
+export const setOrderByFilter = orderBy => ({
+  type: SET_ORDER_BY,
   orderBy
 });
 
-export const setFilterOrderDir = orderDir => ({
-  type: SET_FILTER_ORDER_DIR,
+export const setOrderDirFilter = orderDir => ({
+  type: SET_ORDER_DIR,
   orderDir
 });
