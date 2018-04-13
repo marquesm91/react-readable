@@ -14,7 +14,7 @@ Follow these steps
 * `npm install` or `yarn`
 * `npm run start` or `yarn start`
 
-The application will open your default browser on https://localhost:3002/
+The application will open your default browser on https://localhost:3000/
 
 ## About the application
 
@@ -26,7 +26,7 @@ After the default installation with `create-react-app`, three 3rd party library 
 * `uuid` found [here](https://github.com/kelektiv/node-uuid) and used to set Unique IDs.
 * `antd` found [here](https://github.com/ant-design/ant-design) and used to ease and create the best UX/UI possible.
 
-The application consumes **ReadableAPI** provided earlier from the starter kit Github [repo](https://github.com/udacity/reactnd-project-readable-starter).
+The application consumes **Readable API** provided earlier from the starter kit Github [repo](https://github.com/udacity/reactnd-project-readable-starter).
 
 ## What you can do
 
