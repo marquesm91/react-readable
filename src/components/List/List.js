@@ -3,7 +3,7 @@ import sortBy from 'sort-by';
 import escapeRegExp from 'escape-string-regexp';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Card } from 'antd';
+import { Card, Icon } from 'antd';
 
 import { ListItem } from '../index';
 
@@ -63,7 +63,17 @@ const List = ({ items, loading, onClick, clicklable, orderBy, orderDir, target, 
           ))}
         </ol>
       : <div key="empty-list" className={`empty-container-list-${isDetailsScreen ? 'comment' : 'post'}`}>
-          Be the first to {isDetailsScreen ? 'Comment' : 'Post'} something <div style={{ fontWeight: 'bold', margin: '0 5px' }}>awesome</div> about it!
+          {query.length === 0
+            ? [
+                `Be the first to ${isDetailsScreen ? 'Comment' : 'Post'} something`,
+                <div key='bold-text' style={{ fontWeight: 'bold', margin: '0 5px' }}>awesome</div>,
+                `about it!`
+              ]
+            : <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+                <span>Your filter search bar can't find what you are looking for.</span>
+                <span>How about <strong>{isDetailsScreen ? 'Comment' : 'Post'}</strong> it? <Icon type="smile-o" /></span>
+              </div>
+          }
         </div>
   ];
 };

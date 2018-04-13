@@ -46,7 +46,14 @@
 
 .icon-caret-up,
 .icon-caret-down {
+  color: #888;
   font-size: 28px;
+}
+
+.icon-caret-up:hover,
+.icon-caret-down:hover {
+  cursor: pointer;
+  color: #555;
 }
 
 .list-item-vote-container {
@@ -181,7 +188,7 @@
   justify-content: center;
   width: 100%;
   position: absolute;
-  bottom: 50%;
+  bottom: 45%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 20px;

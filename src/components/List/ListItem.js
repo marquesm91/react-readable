@@ -13,6 +13,16 @@ import {
   setModal
 } from '../../redux/actions';
 
+const getColorVoteScoreStyle = (voteScore) => {
+  if (voteScore > 0) {
+    return { color: '#7ac479' };
+  } else if (voteScore < 0) {
+    return { color: '#e28c8c' };
+  } else {
+    return { color: '#888' };
+  }
+}
+
 const ListItem = ({ item, loading, onClick, clicklable, isDetailsScreen, category, ...props }) => {
   if (loading) {
     return <Card loading />
@@ -45,7 +55,9 @@ const ListItem = ({ item, loading, onClick, clicklable, isDetailsScreen, categor
         <div className="list-item-left-container">
           <div className="list-item-vote-container">
             <Icon className="icon-caret-up" type="caret-up" onClick={e => {e.stopPropagation(); isPost ? props.votePost(item.id, "upVote") : props.voteComment(item.id, "upVote")}} />
-            <span className="list-item-votescore">{item.voteScore}</span>
+            <span className="list-item-votescore" style={getColorVoteScoreStyle(item.voteScore)}>
+              {item.voteScore}
+            </span>
             <Icon className="icon-caret-down" type="caret-down" onClick={e => {e.stopPropagation(); isPost ? props.votePost(item.id, "downVote") : props.voteComment(item.id, "downVote")}} />
           </div>
           {isPost

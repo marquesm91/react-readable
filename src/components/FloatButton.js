@@ -12,7 +12,7 @@ class FloatButton extends PureComponent {
 
   render() {
     const { hover } = this.state;
-    const { className, onClick, labels, postId, isDetailsScreen, howManyPostOfCategory, postSelected, leftSide } = this.props;
+    const { onClick, labels, postId, isDetailsScreen, howManyPostOfCategory, postSelected, leftSide } = this.props;
 
     const firstComment = isDetailsScreen && postSelected && postSelected.commentCount === 0;
     const firstPost = howManyPostOfCategory === undefined || howManyPostOfCategory === 0;
@@ -27,14 +27,14 @@ class FloatButton extends PureComponent {
                 : 'float-new-text fade-out'
             }
           >
-            Write the first <strong>{labels.rightSide}</strong> <strong>{postId ? 'Comment' : 'Post'}</strong>
+            Write the first <strong>{postId ? 'Comment' : `${labels.rightSide} Post`}</strong>
           </div>
         : null,
       <button
         key="fab"
         className={`float-button ${leftSide ? 'float-left-side-button' : ''}`}
         style={hover
-          ? { width: labels.rightSide ? '150px' : '90px' }
+          ? { width: labels.rightSide ? '150px' : '120px' }
           : null
         }
         onClick={onClick}
@@ -45,7 +45,7 @@ class FloatButton extends PureComponent {
           {leftSide
             ? `Back to ${labels.leftSide}`
             : postId
-              ? `New ${labels.rightSide} Comment`
+              ? 'New Comment'
               : `New ${labels.rightSide} Post`
           }
         </div>

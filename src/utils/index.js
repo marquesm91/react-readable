@@ -5,6 +5,7 @@ export const generateUUID = (options = null) => uuidv4(options);
 export const getTimestampAsString = (timestamp) => {
   const date = timestamp ? new Date(timestamp) : Date();
 
+  // eslint-disable-next-line
   const [ day_week, month, day, year, hours ] = date.toString().split(' ');
   const [ hour, minute ] = hours.split(':');
 

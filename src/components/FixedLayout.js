@@ -53,12 +53,46 @@ class FixedLayout extends Component {
           collapsible
           collapsed={collapsed}
         >
-          <div className="logo">
+          <div className="logo" style={collapsed? { margin: '16px 32px 12px 32px', width: '24px' } : { margin: '16px 24px 12px 24px' }}>
             {collapsed
               ? <span style={{ display: 'flex', justifyContent: 'center' }}>R</span>
               : <span style={{ display: 'flex', justifyContent: 'flex-start' }}>Readable</span>
             }
           </div>
+          <Menu
+            mode="inline"
+            className="menu-sidebar"
+            selectedKeys={[location.pathname.substring(1) || '/']}
+            onClick={this.loadPostsHanlder}
+          >
+            <Menu.Item key="/">
+              <div className="menu-item-sidebar">
+                <Icon type="heart-o" style={{ fontSize: collapsed ? '24px' : '20px' }}/>
+                <span>All Categories</span>
+              </div>
+            </Menu.Item>
+            {categories
+              ? categories.map(category => (
+                  <Menu.Item key={`${category.path}`}>
+                    <div className="menu-item-sidebar">
+                      <img
+                        alt="logo"
+                        style={collapsed
+                          ? { width: '24px', height: '24px', marginRight: '0px' }
+                          : { width: '20px', height: '20px', marginRight: '10px' }
+                        }
+                        src={require(`../assets/${category.name}-logo.png`)}
+                      />
+                      {collapsed
+                        ? ''
+                        : category.name.charAt(0).toUpperCase() + category.name.substring(1)
+                      }
+                    </div>
+                  </Menu.Item>
+                ))
+              : null
+            }
+          </Menu>
           {!collapsed
             ? <div className="filters-container">
                 <div className="filters-container-title">{`${target === 'comment' ? 'Comment' : 'Post'} Filters`}</div>
@@ -83,40 +117,6 @@ class FixedLayout extends Component {
               </div>
             : null
           }
-          <Menu
-            mode="inline"
-            className="menu-sidebar"
-            selectedKeys={[location.pathname.substring(1) || '/']}
-            onClick={this.loadPostsHanlder}
-          >
-            <Menu.Item key="/">
-              <div className="menu-item-sidebar">
-                <Icon type="heart-o" />
-                <span>All Categories</span>
-              </div>
-            </Menu.Item>
-            {categories
-              ? categories.map(category => (
-                  <Menu.Item key={`${category.path}`}>
-                    <div className="menu-item-sidebar">
-                      <img
-                        alt="logo"
-                        style={collapsed
-                          ? { width: '20px', height: '20px', marginRight: '0px' }
-                          : { width: '16px', height: '16px', marginRight: '10px' }
-                        }
-                        src={require(`../assets/${category.name}-logo.png`)}
-                      />
-                      {collapsed
-                        ? ''
-                        : category.name.charAt(0).toUpperCase() + category.name.substring(1)
-                      }
-                    </div>
-                  </Menu.Item>
-                ))
-              : null
-            }
-          </Menu>
         </Sider>
         <Layout>
           <Header style={{ background: '#fff', padding: 0, display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
