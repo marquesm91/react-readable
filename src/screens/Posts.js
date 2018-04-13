@@ -9,13 +9,9 @@ import { getPosts, getCategoryPosts, setModal } from '../redux/actions';
 const { Content } = Layout;
 
 class Posts extends Component {
-  async componentWillMount() {
+  async componentDidMount() {
     if (!this.props.posts) {
-      const { category } = this.props.match.params;
-
-      category
-        ? await this.props.getCategoryPosts(category)
-        : await this.props.getPosts();
+      await this.props.getPosts();
     }
   }
 
@@ -34,33 +30,13 @@ class Posts extends Component {
 }
 
 const mapStateToProps = ({ posts }) => ({
-  posts: posts.postsList,
-  /*categories: categories.categoriesList,
-  category: categories.categorySelected,
-  comments: comments.commentsList,
-  commentSelected: comments.commentSelected,
-  postsOrderBy: posts.orderBy,
-  postsOrderDir: posts.orderDir,
-  postsSortBy: (posts.orderDir === 'desc' ? '-' : '') + posts.orderBy*/
+  posts: posts.postsList
 });
 
 const mapDispatchToProps = dispatch => ({
   getCategoryPosts: category => dispatch(getCategoryPosts(category)),
   getPosts: () => dispatch(getPosts()),
-  addNewPost: () => dispatch(setModal({ title: '', body: '', author: '', category: '' })),
-  /*setPostsOrderBy: orderBy => dispatch(setPostsOrderByObject(orderBy)),
-  setPostsOrderDir: orderDir => dispatch(setPostsOrderDirObject(orderDir)),
-  getCategoryPosts: category => dispatch(getCategoryPosts(category)),
-  setCategory: category => dispatch(setCategoryObject(category)),
-  addPost: post => dispatch(addPost(post)),
-  votePost: (id, option) => dispatch(votePost(id, option)),
-  editPost: (id, content) => dispatch(editPost(id, content)),
-  deletePost: id => dispatch(deletePost(id)),
-  getCategories: () => dispatch(getCategories()),
-  addComment: comment => dispatch(addComment(comment)),
-  voteComment: (id, comment) => dispatch(voteComment(id, comment)),
-  getPostComments: id => dispatch(getPostComments(id)),
-  selectComment: comment => dispatch(selectCommentObject(comment))*/
+  addNewPost: () => dispatch(setModal({ title: '', body: '', author: '', category: '' }))
 });
 
 const PostsConnected = withRouter(connect(mapStateToProps, mapDispatchToProps)(Posts));

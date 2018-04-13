@@ -1,17 +1,26 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Layout, Menu, Icon } from 'antd';
-import { getPosts, getCategoryPosts, getCategories, setCategoryObject } from '../redux/actions';
+import { Layout, Menu, Icon, Select } from 'antd';
+import {
+  getPosts,
+  getCategoryPosts,
+  getCategories,
+  setCategoryObject,
+  setFilterOrderDir,
+  setFilterOrderBy,
+  setTargetFilters
+} from '../redux/actions';
 import { SearchBar, Modal } from '../components';
 
 import './FixedLayout.css';
 
 const { Header, Sider, Content } = Layout;
+const Option = Select.Option;
 
 class FixedLayout extends Component {
   state = {
-   collapsed: false
+    collapsed: false
   };
 
   async componentWillMount() {
@@ -20,11 +29,7 @@ class FixedLayout extends Component {
     }
   }
 
-  toggle = () => {
-    this.setState({
-      collapsed: !this.state.collapsed,
-    });
-  }
+  toggle = () => this.setState({ collapsed: !this.state.collapsed });
 
   loadPostsHanlder = async e => {
     this.props.setCategory(e.key);
@@ -35,7 +40,7 @@ class FixedLayout extends Component {
 
   render() {
     const { collapsed } = this.state;
-    const { children, categories, location } = this.props;
+    const { children, categories, location, orderBy, orderDir, targetFilters } = this.props;
 
     return (
       <Layout>
@@ -45,6 +50,26 @@ class FixedLayout extends Component {
           collapsed={collapsed}
         >
           <div className="logo">{collapsed ? 'R' : 'Readable'}</div>
+          {!collapsed
+            ? <div className="filters-container">
+                <span>Apply filters to</span>
+                <Select value={targetFilters} onChange={value => this.props.setTargetFilters(value)}>
+                  <Option value="post">Posts</Option>
+                  <Option value="comment">Comments</Option>
+                </Select>
+                <span>Order by</span>
+                <Select value={orderBy} onChange={value => this.props.setFilterOrderBy(value)}>
+                  <Option value="voteScore">Vote score</Option>
+                  <Option value="timestamp">Date</Option>
+                </Select>
+                <span>Order direction</span>
+                <Select value={orderDir} onChange={value => this.props.setFilterOrderDir(value)}>
+                  <Option value="old">{orderBy === 'timestamp' ? 'Most older' : 'Less rated'}</Option>
+                  <Option value="new">{orderBy === 'timestamp' ? 'Most newer' : 'Most rated'}</Option>
+                </Select>
+              </div>
+            : null
+          }
           <Menu theme="dark" mode="inline" selectedKeys={[location.pathname.substring(1) || '/']} onClick={this.loadPostsHanlder}>
             <Menu.Item key="/">
               <div className="menu-item-sidebar">
@@ -84,16 +109,22 @@ class FixedLayout extends Component {
   }
 }
 
-const mapStateToProps = ({ posts, categories }) => ({
+const mapStateToProps = ({ posts, categories, filter }) => ({
   posts: posts.postsList,
-  categories: categories.categoriesList
+  categories: categories.categoriesList,
+  orderBy: filter.orderBy,
+  orderDir: filter.orderDir,
+  targetFilters: filter.targetFilters
 });
 
 const mapDispatchToProps = dispatch => ({
   getPosts: () => dispatch(getPosts()),
   getCategories: () => dispatch(getCategories()),
   setCategory: category => dispatch(setCategoryObject(category)),
-  getCategoryPosts: category => dispatch(getCategoryPosts(category))
+  getCategoryPosts: category => dispatch(getCategoryPosts(category)),
+  setFilterOrderBy: orderBy => dispatch(setFilterOrderBy(orderBy)),
+  setFilterOrderDir: orderDir => dispatch(setFilterOrderDir(orderDir)),
+  setTargetFilters: targetFilters => dispatch(setTargetFilters(targetFilters))
 });
 
 const FixedLayoutConnected = withRouter(connect(mapStateToProps, mapDispatchToProps)(FixedLayout));

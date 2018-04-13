@@ -1,7 +1,5 @@
 import { url, auth } from '../../api';
 
-export const SET_POSTS_ORDER_BY = 'SET_POSTS_ORDER_BY';
-export const SET_POSTS_ORDER_DIR = 'SET_POSTS_ORDER_DIR';
 export const SELECT_POST = 'SELECT_POST';
 export const GET_POST = 'GET_POST';
 export const GET_POSTS = 'GET_POSTS';
@@ -9,16 +7,6 @@ export const GET_CATEGORY_POSTS = 'GET_CATEGORY_POSTS';
 export const SET_POST = 'SET_POST';
 export const DELETE_POST = 'DELETE_POST';
 export const UPDATE_POST_COMMENTCOUNT = 'UPDATE_POST_COMMENTCOUNT';
-
-export const setPostsOrderByObject = orderBy => ({
-  type: SET_POSTS_ORDER_BY,
-  orderBy
-});
-
-export const setPostsOrderDirObject = orderDir => ({
-  type: SET_POSTS_ORDER_DIR,
-  orderDir
-});
 
 export const selectPostObject = post => ({
   type: SELECT_POST,

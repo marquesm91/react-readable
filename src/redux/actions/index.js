@@ -6,8 +6,15 @@ export {
 } from './Categories';
 
 export {
-  SET_POSTS_ORDER_BY,
-  SET_POSTS_ORDER_DIR,
+  SET_FILTER_ORDER_DIR,
+  SET_FILTER_ORDER_BY,
+  SET_TARGET_FILTERS,
+  setFilterOrderDir,
+  setFilterOrderBy,
+  setTargetFilters
+} from './Filter';
+
+export {
   SELECT_POST,
   GET_POST,
   GET_POSTS,
@@ -23,9 +30,7 @@ export {
   votePost,
   editPost,
   deletePost,
-  selectPostObject,
-  setPostsOrderByObject,
-  setPostsOrderDirObject
+  selectPostObject
 } from './Posts';
 
 export {
