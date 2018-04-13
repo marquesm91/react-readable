@@ -33,7 +33,7 @@
 .fade-out {
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s linear 0s, opacity .12s;
+  transition: visibility 0s linear 0s, opacity .32s;
 }
 
 .float-button .float-button-text {
@@ -53,4 +53,26 @@
 
 .float-button:focus {
   outline: 0;
+}
+
+.float-new-text {
+  position: fixed;
+  bottom: 35px;
+  right: 90px;
+  font-size: 22px;
+
+  visibility: hidden;
+  opacity: 0;
+}
+
+.float-new-text.fade-in {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s linear .12s, opacity .32s;
+}
+
+.float-new-text.fade-out {
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear .12s, opacity .12s;
 }

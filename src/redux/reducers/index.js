@@ -5,6 +5,7 @@ import comments from './Comments';
 import modal from './Modal';
 import filter from './Filter';
 import search from './Search';
+import loader from './Loader';
 
 export default combineReducers({
   posts,
@@ -12,5 +13,6 @@ export default combineReducers({
   comments,
   modal,
   filter,
-  search
+  search,
+  loader
 });

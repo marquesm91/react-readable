@@ -7,7 +7,7 @@ import { votePost, deletePost, voteComment, deleteComment, setModal } from '../.
 import { getTimestampAsString } from '../../utils';
 
 const ListItem = ({ item, loading, onClick, clicklable, isDetailsScreen, category, ...props }) => {
-  if (loading) {
+  if (!item || loading) {
     return <Card loading />
   }
 
@@ -27,7 +27,7 @@ const ListItem = ({ item, loading, onClick, clicklable, isDetailsScreen, categor
   }
 
   return (
-    <Card loading={loading}>
+    <Card>
       <div className="list-item-container">
         <div className="list-item-left-info-container">
           <Icon type="caret-up" onClick={e => {e.stopPropagation(); isPost ? props.votePost(item.id, "upVote") : props.voteComment(item.id, "upVote")}} />
@@ -77,8 +77,9 @@ const ListItem = ({ item, loading, onClick, clicklable, isDetailsScreen, categor
   );
 };
 
-const mapStateToProps = ({ categories }, ownProps) => ({
+const mapStateToProps = ({ categories, loader }, ownProps) => ({
   category: categories.categorySelected,
+  loading: loader,
   // isDetailsScreen will check if url path is in Post or Posts
   // Post has Comment List -> category is irrelevant and filter won't be necessary
   // Posts has Posts List -> category is relevant and filter will be necessary but only if category is different to '/'

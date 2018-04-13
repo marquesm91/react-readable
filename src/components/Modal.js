@@ -20,12 +20,14 @@ class Modal extends Component {
 
   isModalOpen = () => this.props.modal && typeof this.props.modal === 'object';
   isEditing = () => this.isModalOpen() && (this.props.modal.title || this.props.modal.body);
-  isCommentModal = () => this.props.modal && !this.props.modal.title;
-  isPostModal = () => this.props.modal && this.props.modal.title !== undefined;
+  isCommentModal = () => this.isModalOpen() && this.props.modal.title === undefined;
+  isPostModal = () => this.isModalOpen() && this.props.modal.title !== undefined;
 
   componentWillReceiveProps(nextProps) {
     if (nextProps.modal) {
-      this.setState({ ...nextProps.modal });
+      nextProps.modal.title || nextProps.modal.body
+        ? this.setState({ ...nextProps.modal })
+        : this.setState({ ...nextProps.modal, category: nextProps.category });
     }
   }
 
@@ -69,8 +71,6 @@ class Modal extends Component {
 
     this.props.closeModal();
   }
-
-  handleCancel = () => this.props.closeModal();
 
   canISubmit = () => {
     const { title, body, author, category } = this.state;
@@ -158,8 +158,9 @@ class Modal extends Component {
   }
 }
 
-const mapStateToProps = ({ modal }) => ({
-  modal
+const mapStateToProps = ({ modal, categories }) => ({
+  modal,
+  category: categories.categorySelected === '/' ? '' : categories.categorySelected
 });
 
 const mapDispatchToProps = dispatch => ({

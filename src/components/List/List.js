@@ -13,8 +13,7 @@ const List = ({ items, loading, onClick, clicklable, orderBy, orderDir, target, 
   if (!items || loading) {
     return [
       <Card key="1" loading style={{ width: '100%' }} />,
-      <Card key="2" loading style={{ width: '100%' }} />,
-      <Card key="3" loading style={{ width: '100%' }} />
+      <Card key="2" loading style={{ width: '100%' }} />
     ];
   }
 
@@ -46,13 +45,13 @@ const List = ({ items, loading, onClick, clicklable, orderBy, orderDir, target, 
   );
 };
 
-const mapStateToProps = ({ posts, categories, filter, search }, ownProps) => ({
+const mapStateToProps = ({ posts, categories, filter, search, loader }, ownProps) => ({
   category: categories.categorySelected,
   orderBy: filter.orderBy,
   orderDir: filter.orderDir,
   target: filter.targetFilters,
   query: search,
-
+  loading: loader,
   // isDetailsScreen will check if url path is in Post or Posts
   // Post has Comment List -> category is irrelevant and filter won't be necessary
   // Posts has Posts List -> category is relevant and filter will be necessary but only if category is different to '/'

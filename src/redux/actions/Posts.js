@@ -5,6 +5,9 @@ export const GET_POSTS = 'GET_POSTS';
 export const SET_POST = 'SET_POST';
 export const DELETE_POST = 'DELETE_POST';
 export const UPDATE_POST_COMMENTCOUNT = 'UPDATE_POST_COMMENTCOUNT';
+export const SET_HOWMANY_POSTS = 'SET_HOWMANY_POSTS';
+export const ADD_HOWMANY_POSTS = 'ADD_HOWMANY_POSTS';
+export const DELETE_HOWMANY_POSTS = 'DELETE_HOWMANY_POSTS';
 
 const selectPost = post => ({
   type: SELECT_POST,
@@ -25,12 +28,43 @@ export const updatePostCommentCount = (postId, commentDeleted) => ({
   type: UPDATE_POST_COMMENTCOUNT,
   postId,
   commentDeleted
-})
+});
+
+const setHowManyPosts = howManyPosts => ({
+  type: SET_HOWMANY_POSTS,
+  howManyPosts
+});
+
+const addHowManyPosts = postCategory => ({
+  type: ADD_HOWMANY_POSTS,
+  postCategory
+});
+
+const deleteHowManyPosts = postCategory => ({
+  type: DELETE_HOWMANY_POSTS,
+  postCategory
+});
 
 export const getPosts = () => dispatch => (
   fetch(`${url}/posts`, { headers: { Authorization: auth }})
     .then(res => res.json())
-    .then(posts => dispatch(getPostsObject(posts)))
+    .then(posts => {
+      const howManyPosts = posts.reduce((acc, cur) => {
+        if (!acc['/']) {
+          acc['/'] = 0;
+        }
+        if (!acc[cur.category]) {
+          acc[cur.category] = 0;
+        }
+
+        acc[cur.category]++;
+        acc['/']++;
+        return acc;
+      }, {});
+
+      dispatch(setHowManyPosts(howManyPosts));
+      return dispatch(getPostsObject(posts));
+    })
 )
 
 export const getPost = id => dispatch => (
@@ -49,7 +83,10 @@ export const addPost = post => dispatch => (
     }
   })
     .then(res => res.json())
-    .then(post => dispatch(setPostObject(post)))
+    .then(post => {
+      dispatch(addHowManyPosts(post.category));
+      return dispatch(setPostObject(post))
+    })
 )
 
 export const editPost = (id, content) => dispatch => (
@@ -73,7 +110,10 @@ export const deletePost = id => dispatch => (
     }
   })
     .then(res => res.json())
-    .then(post => dispatch(setPostObject(post)))
+    .then(post => {
+      dispatch(deleteHowManyPosts(post.category));
+      return dispatch(setPostObject(post))
+    })
     .then(() => dispatch(selectPost(null)))
 )
 

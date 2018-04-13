@@ -9,6 +9,7 @@ const initialState = {
   orderDir: 'new',
   targetFilters: 'post'
 }
+
 const Filter = (state = initialState, action) => {
   switch (action.type) {
     case SET_TARGET_FILTERS:

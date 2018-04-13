@@ -1,4 +1,9 @@
 export {
+  API_FETCHING,
+  setAPIFetching
+} from './Loader';
+
+export {
   SET_CATEGORY,
   GET_CATEGORIES,
   getCategories,
@@ -24,6 +29,9 @@ export {
   GET_POSTS,
   SET_POST,
   UPDATE_POST_COMMENTCOUNT,
+  SET_HOWMANY_POSTS,
+  ADD_HOWMANY_POSTS,
+  DELETE_HOWMANY_POSTS,
   getPosts,
   getPost,
   addPost,
