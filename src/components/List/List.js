@@ -1,5 +1,6 @@
 import React from 'react';
 import sortBy from 'sort-by';
+import escapeRegExp from 'escape-string-regexp';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Card } from 'antd';
@@ -8,7 +9,7 @@ import { ListItem } from '../index';
 
 import './List.css';
 
-const List = ({ items, onClick, clicklable, orderBy, orderDir, target, category, isDetailsScreen }) => {
+const List = ({ items, onClick, clicklable, orderBy, orderDir, target, category, isDetailsScreen, query }) => {
   if (!items) {
     return [
       <Card key="1" loading style={{ width: '100%' }} />,
@@ -17,15 +18,22 @@ const List = ({ items, onClick, clicklable, orderBy, orderDir, target, category,
     ];
   }
 
-  // Apply filter only if items are Post List and category is different to '/'
-  const itemsAfterFilter = !isDetailsScreen && category !== '/'
+  // Apply this filter only if items are Post List and category is different to '/'
+  const itemsAfterCategoryFilter = !isDetailsScreen && category !== '/'
     ? items.filter(i => i.category === category)
     : items;
 
+  // Apply this filter only if SearchBar query isn't empty
+  let itemsAfterSearchFilter = itemsAfterCategoryFilter;
+  if (query.length) {
+    const match = new RegExp(escapeRegExp(query), 'i');
+    itemsAfterSearchFilter = itemsAfterCategoryFilter.filter(i => match.test(i.title) || match.test(i.body) || match.test(i.author));
+  }
+
   // Apply sort only if these two conditions are true
   const itemsAfterSort = (isDetailsScreen && target === 'comment') || (!isDetailsScreen && target === 'post')
-    ? itemsAfterFilter.sort(sortBy(`${orderDir === 'new' ? '-' : ''}${orderBy}`))
-    : itemsAfterFilter;
+    ? itemsAfterSearchFilter.sort(sortBy(`${orderDir === 'new' ? '-' : ''}${orderBy}`))
+    : itemsAfterSearchFilter;
 
   return (
     <ol className="container-list">
@@ -38,11 +46,12 @@ const List = ({ items, onClick, clicklable, orderBy, orderDir, target, category,
   );
 };
 
-const mapStateToProps = ({ posts, categories, filter }, ownProps) => ({
+const mapStateToProps = ({ posts, categories, filter, search }, ownProps) => ({
   category: categories.categorySelected,
   orderBy: filter.orderBy,
   orderDir: filter.orderDir,
   target: filter.targetFilters,
+  query: search,
 
   // isDetailsScreen will check if url path is in Post or Posts
   // Post has Comment List -> category is irrelevant and filter won't be necessary

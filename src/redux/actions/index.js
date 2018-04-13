@@ -15,6 +15,11 @@ export {
 } from './Filter';
 
 export {
+  SET_QUERY,
+  setQuery
+} from './Search';
+
+export {
   SELECT_POST,
   GET_POST,
   GET_POSTS,
