@@ -53,3 +53,10 @@ li {
 .filters-container > div {
   margin-top: 5px;
 }
+
+.filters-container-title {
+  margin: 0 !important;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+}

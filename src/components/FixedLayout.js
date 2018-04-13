@@ -52,7 +52,8 @@ class FixedLayout extends Component {
           <div className="logo">{collapsed ? 'R' : 'Readable'}</div>
           {!collapsed
             ? <div className="filters-container">
-                <span>Apply filters to</span>
+                <div className="filters-container-title">Filters</div>
+                <span>Apply to</span>
                 <Select value={targetFilters} onChange={value => this.props.setTargetFilters(value)}>
                   <Option value="post">Posts</Option>
                   <Option value="comment">Comments</Option>
@@ -73,7 +74,7 @@ class FixedLayout extends Component {
           <Menu theme="dark" mode="inline" selectedKeys={[location.pathname.substring(1) || '/']} onClick={this.loadPostsHanlder}>
             <Menu.Item key="/">
               <div className="menu-item-sidebar">
-                <Icon type="user" />
+                <Icon type="tags" />
                 <span>All Categories</span>
               </div>
             </Menu.Item>
@@ -81,7 +82,7 @@ class FixedLayout extends Component {
               ? categories.map(category => (
                   <Menu.Item key={`${category.path}`}>
                     <div className="menu-item-sidebar">
-                      <Icon type="user" />
+                      <Icon type="tag" />
                       <span>{category.name}</span>
                     </div>
                   </Menu.Item>
