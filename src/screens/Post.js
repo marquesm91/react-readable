@@ -15,7 +15,8 @@ import {
   setComments,
   getPostComments,
   setModal,
-  setAPIFetching
+  setAPIFetching,
+  setTargetFilter
 } from '../redux/actions';
 
 const { Content } = Layout;
@@ -23,6 +24,7 @@ const { Content } = Layout;
 class Post extends Component {
   async componentWillMount() {
     const { post_id } = this.props.match.params;
+    this.props.setTargetFilter('comment');
 
     this.props.setAPIFetching(true);
     if (this.props.posts.length === 0) {
@@ -34,6 +36,7 @@ class Post extends Component {
   }
 
   componentWillUnmount() {
+    this.props.setTargetFilter('post');
     if (this.props.post) {
       this.props.selectPost(null);
       this.props.setComments([]);
@@ -46,8 +49,6 @@ class Post extends Component {
     const post = postSelectedId === -1
       ? -1 // -1 is a special case when fetch for a post that doesn't exist anymore in API
       : posts.find(p => p.id === postSelectedId);
-
-      console.log(postSelectedId);
 
     return (
       <Content style={{ minHeight: '100vh' }}>
@@ -73,7 +74,8 @@ const mapDispatchToProps = dispatch => ({
   setComments: id => dispatch(setComments(id)),
   getPostComments: id => dispatch(getPostComments(id)),
   addNewComment: parentId => dispatch(setModal({ id: parentId, body: '', author: '' })),
-  setAPIFetching: apiFetching => dispatch(setAPIFetching(apiFetching))
+  setAPIFetching: apiFetching => dispatch(setAPIFetching(apiFetching)),
+  setTargetFilter: target => dispatch(setTargetFilter(target))
 });
 
 const PostConnected = connect(mapStateToProps, mapDispatchToProps)(Post);

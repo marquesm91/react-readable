@@ -3,6 +3,7 @@ import { updatePostCommentCount } from './index';
 
 export const SET_COMMENTS = 'SET_COMMENTS';
 export const SET_COMMENT = 'SET_COMMENT';
+export const DELETE_COMMENT = 'DELETE_COMMENT';
 
 export const setComments = comments => ({
   type: SET_COMMENTS,
@@ -11,6 +12,11 @@ export const setComments = comments => ({
 
 const setCommentObject = comment => ({
   type: SET_COMMENT,
+  comment
+});
+
+const deleteCommentObject = comment => ({
+  type: DELETE_COMMENT,
   comment
 });
 
@@ -30,8 +36,10 @@ export const addComment = comment => dispatch => (
     }
   })
     .then(res => res.json())
-    .then(comment => dispatch(setCommentObject(comment)))
-    .then(({ comment }) => dispatch(updatePostCommentCount(comment.parentId, comment.deleted)))
+    .then(comment => {
+      dispatch(updatePostCommentCount(comment.parentId, comment.deleted));
+      return dispatch(setCommentObject(comment));
+    })
 )
 
 export const editComment = (id, content) => dispatch => (
@@ -55,8 +63,10 @@ export const deleteComment = id => dispatch => (
     }
   })
     .then(res => res.json())
-    .then(comment => dispatch(setCommentObject(comment)))
-    .then(({ comment }) => dispatch(updatePostCommentCount(comment.parentId, comment.deleted)))
+    .then(comment => {
+      dispatch(updatePostCommentCount(comment.parentId, comment.deleted))
+      return dispatch(deleteCommentObject(comment));
+    })
 )
 
 export const voteComment = (id, option) => dispatch => (

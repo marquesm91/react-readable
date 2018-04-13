@@ -13,8 +13,7 @@ import {
   getCategories,
   setCategory,
   setOrderByFilter,
-  setOrderDirFilter,
-  setTargetFilter
+  setOrderDirFilter
 } from '../redux/actions';
 
 import './FixedLayout.css';
@@ -44,7 +43,7 @@ class FixedLayout extends Component {
 
   render() {
     const { collapsed } = this.state;
-    const { children, categories, location, orderBy, orderDir, targetFilters } = this.props;
+    const { children, categories, location, orderBy, orderDir, target } = this.props;
 
     return (
       <Layout>
@@ -56,12 +55,7 @@ class FixedLayout extends Component {
           <div className="logo">{collapsed ? 'R' : 'Readable'}</div>
           {!collapsed
             ? <div className="filters-container">
-                <div className="filters-container-title">Filters</div>
-                <span>Apply to</span>
-                <Select value={targetFilters} onChange={value => this.props.setTargetFilter(value)}>
-                  <Option value="post">Posts</Option>
-                  <Option value="comment">Comments</Option>
-                </Select>
+                <div className="filters-container-title">{`${target === 'comment' ? 'Comment' : 'Post'} Filters`}</div>
                 <span>Order by</span>
                 <Select value={orderBy} onChange={value => this.props.setOrderByFilter(value)}>
                   <Option value="voteScore">Vote score</Option>
@@ -119,7 +113,7 @@ const mapStateToProps = ({ post, category, filter }) => ({
   categories: category.list,
   orderBy: filter.orderBy,
   orderDir: filter.orderDir,
-  targetFilters: filter.target
+  target: filter.target
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -127,8 +121,7 @@ const mapDispatchToProps = dispatch => ({
   getCategories: () => dispatch(getCategories()),
   setCategory: category => dispatch(setCategory(category)),
   setOrderByFilter: orderBy => dispatch(setOrderByFilter(orderBy)),
-  setOrderDirFilter: orderDir => dispatch(setOrderDirFilter(orderDir)),
-  setTargetFilter: targetFilters => dispatch(setTargetFilter(targetFilters))
+  setOrderDirFilter: orderDir => dispatch(setOrderDirFilter(orderDir))
 });
 
 const FixedLayoutConnected = withRouter(connect(mapStateToProps, mapDispatchToProps)(FixedLayout));

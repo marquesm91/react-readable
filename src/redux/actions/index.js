@@ -46,6 +46,7 @@ export {
 export {
   SET_COMMENTS,
   SET_COMMENT,
+  DELETE_COMMENT,
   getPostComments,
   setComments,
   addComment,

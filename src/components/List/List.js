@@ -10,7 +10,7 @@ import { ListItem } from '../index';
 import './List.css';
 
 const List = ({ items, loading, onClick, clicklable, orderBy, orderDir, target, category, isDetailsScreen, query }) => {
-  if (!items || loading) {
+  if (loading) {
     return [
       <Card key="1" loading style={{ width: '100%' }} />,
       <Card key="2" loading style={{ width: '100%' }} />
@@ -30,9 +30,7 @@ const List = ({ items, loading, onClick, clicklable, orderBy, orderDir, target, 
   }
 
   // Apply sort only if these two conditions are true
-  const itemsAfterSort = (isDetailsScreen && target === 'comment') || (!isDetailsScreen && target === 'post')
-    ? itemsAfterSearchFilter.sort(sortBy(`${orderDir === 'new' ? '-' : ''}${orderBy}`))
-    : itemsAfterSearchFilter;
+  const itemsAfterSort = itemsAfterSearchFilter.sort(sortBy(`${orderDir === 'new' ? '-' : ''}${orderBy}`));
 
   return (
     <ol className="container-list">
@@ -49,7 +47,6 @@ const mapStateToProps = ({ post, category, filter, search, loader }, ownProps) =
   category: category.selected,
   orderBy: filter.orderBy,
   orderDir: filter.orderDir,
-  target: filter.target,
   query: search,
   loading: loader,
   // isDetailsScreen will check if url path is in Post or Posts

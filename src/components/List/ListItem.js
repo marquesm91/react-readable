@@ -14,7 +14,6 @@ import {
 } from '../../redux/actions';
 
 const ListItem = ({ item, loading, onClick, clicklable, isDetailsScreen, category, ...props }) => {
-  //console.log(item, loading);
   if (loading) {
     return <Card loading />
   }
@@ -25,7 +24,6 @@ const ListItem = ({ item, loading, onClick, clicklable, isDetailsScreen, categor
   }
 
   if (item === undefined) {
-    console.log(item)
     // Redirect to props.category when is a deleted Post and is in Post screen
     return isDetailsScreen
       ? <Redirect to={category === '/' ? category : `/${category}`} />

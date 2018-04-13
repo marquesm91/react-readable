@@ -52,6 +52,6 @@ const mapDispatchToProps = dispatch => ({
   setComments: id => dispatch(setComments(id))
 });
 
-const Page404Connected = connect(null, mapDispatchToProps)(Page404);
+const Page404Connected = withRouter(connect(null, mapDispatchToProps)(Page404));
 
 export { Page404Connected as Page404 };
