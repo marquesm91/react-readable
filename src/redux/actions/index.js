@@ -21,36 +21,26 @@ export {
 
 export {
   SELECT_POST,
-  GET_POST,
   GET_POSTS,
-  GET_CATEGORY_POSTS,
   SET_POST,
-  DELETE_POST,
   UPDATE_POST_COMMENTCOUNT,
-  updatePostCommentCount,
-  getPost,
   getPosts,
-  getCategoryPosts,
+  getPost,
   addPost,
   votePost,
   editPost,
   deletePost,
-  selectPostObject
+  updatePostCommentCount
 } from './Posts';
 
 export {
-  SELECT_COMMENT,
-  GET_COMMENT,
   GET_COMMENTS,
   SET_COMMENT,
-  DELETE_COMMENT,
-  getComment,
   getPostComments,
   addComment,
   voteComment,
   editComment,
-  deleteComment,
-  selectCommentObject
+  deleteComment
 } from './Comments';
 
 export {

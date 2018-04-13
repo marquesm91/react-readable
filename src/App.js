@@ -10,10 +10,9 @@ class App extends Component {
         <FixedLayout>
           <Switch>
             <Route exact path="/" component={Posts} />
-            <Route exact path="/not-found" component={Page404} />
-            <Route exact path="/:category" component={Posts} />
-            <Route exact path="/:category/:post_id" component={Post} />
-            <Route component={Page404} />
+            <Route path="/not-found" component={Page404} />
+            <Route path="/:category/:post_id" component={Post} />
+            <Route path="/:category" component={Posts} />
           </Switch>
         </FixedLayout>
       </Router>

@@ -32,14 +32,6 @@ class Modal extends Component {
   handlePostSubmit = async () => {
     const { id, title, body, author, category } = this.state;
 
-    console.log({
-        id: generateUUID(),
-        timestamp: new Date().getTime(),
-        title,
-        body,
-        author,
-        category
-      })
     this.isEditing()
       ? await this.props.editPost(id, {
           timestamp: new Date().getTime(),
@@ -61,7 +53,6 @@ class Modal extends Component {
   handleCommentSubmit = async () => {
     const { id, body, author } = this.state;
 
-    console.log(body, id)
     // for comments id will be post.id
     this.isEditing()
       ? await this.props.editComment(id, {

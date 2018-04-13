@@ -9,8 +9,8 @@ import { ListItem } from '../index';
 
 import './List.css';
 
-const List = ({ items, onClick, clicklable, orderBy, orderDir, target, category, isDetailsScreen, query }) => {
-  if (!items) {
+const List = ({ items, loading, onClick, clicklable, orderBy, orderDir, target, category, isDetailsScreen, query }) => {
+  if (!items || loading) {
     return [
       <Card key="1" loading style={{ width: '100%' }} />,
       <Card key="2" loading style={{ width: '100%' }} />,

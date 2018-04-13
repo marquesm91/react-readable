@@ -1,21 +1,9 @@
 import { url, auth } from '../../api';
 import { updatePostCommentCount } from './index';
 
-export const SELECT_COMMENT = 'SELECT_COMMENT';
-export const GET_COMMENT = 'GET_COMMENT';
 export const GET_COMMENTS = 'GET_COMMENTS';
 export const SET_COMMENT = 'SET_COMMENT';
 export const DELETE_COMMENT = 'DELETE_COMMENT';
-
-export const selectCommentObject = comment => ({
-  type: SELECT_COMMENT,
-  comment
-});
-
-const getCommentObject = comment => ({
-  type: GET_COMMENT,
-  comment
-});
 
 const getCommentsObject = comments => ({
   type: GET_COMMENTS,
@@ -27,21 +15,10 @@ const setCommentObject = comment => ({
   comment
 });
 
-/*const deleteCommentObject = comment => ({
-  type: DELETE_COMMENT,
-  comment
-});*/
-
 export const getPostComments = id => dispatch => (
   fetch(`${url}/posts/${id}/comments`, { headers: { Authorization: auth }})
     .then(res => res.json())
     .then(comments => dispatch(getCommentsObject(comments)))
-)
-
-export const getComment = id => dispatch => (
-  fetch(`${url}/comments/${id}`, { headers: { Authorization: auth }})
-    .then(res => res.json())
-    .then(comment => dispatch(getCommentObject(comment)))
 )
 
 export const addComment = comment => dispatch => (

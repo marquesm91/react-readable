@@ -1,28 +1,38 @@
 import React from 'react';
+import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Card, Icon, Button, Popconfirm } from 'antd';
 
 import { votePost, deletePost, voteComment, deleteComment, setModal } from '../../redux/actions';
 import { getTimestampAsString } from '../../utils';
 
-const ListItem = ({ item, loading, onClick, clicklable, votePost, editPost, deletePost, voteComment, editComment, deleteComment }) => {
-  if (!item) {
+const ListItem = ({ item, loading, onClick, clicklable, isDetailsScreen, category, ...props }) => {
+  if (loading) {
     return <Card loading />
   }
 
-  if (item.deleted) {
-    return null;
+  // when loading is false and can't find any item redirect to 404 not found
+  if (item === undefined) {
+    return <Redirect to="/not-found" />;
   }
 
   const isPost = item && item.title !== undefined;
+  if (item.deleted) {
+    // Redirect to props.category when is a deleted Post and is in Post screen
+    if (isPost && isDetailsScreen) {
+      return <Redirect to={category === '/' ? category : `/${category}`} />;
+    } else {
+      return null; // Remove from List when is a deleted Comment or a deleted Post in Posts screen
+    }
+  }
 
   return (
     <Card loading={loading}>
       <div className="list-item-container">
         <div className="list-item-left-info-container">
-          <Icon type="caret-up" onClick={e => {e.stopPropagation(); isPost ? votePost(item.id, "upVote") : voteComment(item.id, "upVote")}} />
+          <Icon type="caret-up" onClick={e => {e.stopPropagation(); isPost ? props.votePost(item.id, "upVote") : props.voteComment(item.id, "upVote")}} />
           <div>{item.voteScore}</div>
-          <Icon type="caret-down" onClick={e => {e.stopPropagation(); isPost ? votePost(item.id, "downVote") : voteComment(item.id, "downVote")}} />
+          <Icon type="caret-down" onClick={e => {e.stopPropagation(); isPost ? props.votePost(item.id, "downVote") : props.voteComment(item.id, "downVote")}} />
           {isPost
             ? [
                 <div key="category" className="list-item-tag-category">{item.category}</div>,
@@ -34,12 +44,12 @@ const ListItem = ({ item, loading, onClick, clicklable, votePost, editPost, dele
         <div className="list-item-content-container">
           {isPost
             ? <div className="list-item-header">
-                <span
-                  className={`list-item-title ${clicklable ? 'hover-effects' : ''}`}
-                  onClick={e => { e.stopPropagation(); if (clicklable) { onClick(item); }}}
-                >
-                  {item.title}
-                </span>
+                {clicklable
+                  ? <span className="list-item-title hover-effects" onClick={e => {e.stopPropagation(); onClick(item)}}>
+                      {item.title}
+                    </span>
+                  : <span className="list-item-title">{item.title}</span>
+                }
               </div>
             : null
           }
@@ -53,19 +63,27 @@ const ListItem = ({ item, loading, onClick, clicklable, votePost, editPost, dele
               placement="top"
               title={'Are you sure?'}
               onCancel={e => e.stopPropagation()}
-              onConfirm={e => {e.stopPropagation(); isPost ? deletePost(item.id) : deleteComment(item.id)}}
+              onConfirm={e => {e.stopPropagation(); isPost ? props.deletePost(item.id) : props.deleteComment(item.id)}}
               okText="Yes"
               cancelText="No"
             >
               <Button type="danger" onClick={e => e.stopPropagation()}>Delete</Button>
             </Popconfirm>
-            <Button onClick={e => {e.stopPropagation(); isPost ? editPost(item) : editComment(item)}}>Edit</Button>
+            <Button onClick={e => {e.stopPropagation(); isPost ? props.editPost(item) : props.editComment(item)}}>Edit</Button>
           </div>
         </div>
       </div>
     </Card>
   );
 };
+
+const mapStateToProps = ({ categories }, ownProps) => ({
+  category: categories.categorySelected,
+  // isDetailsScreen will check if url path is in Post or Posts
+  // Post has Comment List -> category is irrelevant and filter won't be necessary
+  // Posts has Posts List -> category is relevant and filter will be necessary but only if category is different to '/'
+  isDetailsScreen: ownProps.match.path === '/:category/:post_id' ? true : false
+});
 
 const mapDispatchToProps = dispatch => ({
   votePost: (id, option) => dispatch(votePost(id, option)),
@@ -76,6 +94,6 @@ const mapDispatchToProps = dispatch => ({
   editComment: comment => dispatch(setModal({ id: comment.id, body: comment.body, author: comment.author }))
 });
 
-const ListItemConnected = connect(null, mapDispatchToProps)(ListItem);
+const ListItemConnected = withRouter(connect(mapStateToProps, mapDispatchToProps)(ListItem));
 
 export { ListItemConnected as ListItem };

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Layout } from 'antd';
 
 import { List as PostList, FloatButton } from '../components';
-import { getPosts, getCategoryPosts, setModal } from '../redux/actions';
+import { getPosts, setModal } from '../redux/actions';
 
 const { Content } = Layout;
 
@@ -34,7 +34,6 @@ const mapStateToProps = ({ posts }) => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  getCategoryPosts: category => dispatch(getCategoryPosts(category)),
   getPosts: () => dispatch(getPosts()),
   addNewPost: () => dispatch(setModal({ title: '', body: '', author: '', category: '' }))
 });

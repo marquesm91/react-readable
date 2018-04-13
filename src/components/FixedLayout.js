@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 import { Layout, Menu, Icon, Select } from 'antd';
 import {
   getPosts,
-  getCategoryPosts,
   getCategories,
   setCategoryObject,
   setFilterOrderDir,
@@ -122,7 +121,6 @@ const mapDispatchToProps = dispatch => ({
   getPosts: () => dispatch(getPosts()),
   getCategories: () => dispatch(getCategories()),
   setCategory: category => dispatch(setCategoryObject(category)),
-  getCategoryPosts: category => dispatch(getCategoryPosts(category)),
   setFilterOrderBy: orderBy => dispatch(setFilterOrderBy(orderBy)),
   setFilterOrderDir: orderDir => dispatch(setFilterOrderDir(orderDir)),
   setTargetFilters: targetFilters => dispatch(setTargetFilters(targetFilters))

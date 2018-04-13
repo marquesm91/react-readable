@@ -1,30 +1,18 @@
 import { url, auth } from '../../api';
 
 export const SELECT_POST = 'SELECT_POST';
-export const GET_POST = 'GET_POST';
 export const GET_POSTS = 'GET_POSTS';
-export const GET_CATEGORY_POSTS = 'GET_CATEGORY_POSTS';
 export const SET_POST = 'SET_POST';
 export const DELETE_POST = 'DELETE_POST';
 export const UPDATE_POST_COMMENTCOUNT = 'UPDATE_POST_COMMENTCOUNT';
 
-export const selectPostObject = post => ({
+const selectPost = post => ({
   type: SELECT_POST,
-  post
-});
-
-const getPostObject = post => ({
-  type: GET_POST,
   post
 });
 
 const getPostsObject = posts => ({
   type: GET_POSTS,
-  posts
-});
-
-const getCategoryPostsObject = posts => ({
-  type: GET_CATEGORY_POSTS,
   posts
 });
 
@@ -39,27 +27,16 @@ export const updatePostCommentCount = (postId, commentDeleted) => ({
   commentDeleted
 })
 
-/*const deletePostObject = post => ({
-  type: DELETE_POST,
-  post
-});*/
-
 export const getPosts = () => dispatch => (
   fetch(`${url}/posts`, { headers: { Authorization: auth }})
     .then(res => res.json())
     .then(posts => dispatch(getPostsObject(posts)))
 )
 
-export const getCategoryPosts = category => dispatch => (
-  fetch(`${url}/${category}/posts`, { headers: { Authorization: auth }})
-    .then(res => res.json())
-    .then(posts => dispatch(getCategoryPostsObject(posts)))
-)
-
 export const getPost = id => dispatch => (
   fetch(`${url}/posts/${id}`, { headers: { Authorization: auth }})
     .then(res => res.json())
-    .then(post => dispatch(getPostObject(post)))
+    .then(post => dispatch(selectPost(post && post.id ? post.id : null)))
 )
 
 export const addPost = post => dispatch => (
@@ -97,6 +74,7 @@ export const deletePost = id => dispatch => (
   })
     .then(res => res.json())
     .then(post => dispatch(setPostObject(post)))
+    .then(() => dispatch(selectPost(null)))
 )
 
 export const votePost = (id, option) => dispatch => (
