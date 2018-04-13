@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect, withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
-import { Card, Icon, Button, Popconfirm } from 'antd';
+import { Card, Icon, Popconfirm } from 'antd';
 
 import { getTimestampAsString } from '../../utils';
 
@@ -33,25 +33,38 @@ const ListItem = ({ item, loading, onClick, clicklable, isDetailsScreen, categor
   const isPost = item && item.title !== undefined;
 
   return (
-    <Card>
-      <div className="list-item-container">
-        <div className="list-item-left-info-container">
-          <Icon type="caret-up" onClick={e => {e.stopPropagation(); isPost ? props.votePost(item.id, "upVote") : props.voteComment(item.id, "upVote")}} />
-          <div>{item.voteScore}</div>
-          <Icon type="caret-down" onClick={e => {e.stopPropagation(); isPost ? props.votePost(item.id, "downVote") : props.voteComment(item.id, "downVote")}} />
+    <Card
+      hoverable={!isDetailsScreen}
+      onClick={e => {e.stopPropagation(); if (!isDetailsScreen) { onClick(item) }}}
+      style={{
+        cursor: !isDetailsScreen ? 'pointer' : 'default',
+        margin: isPost ? '0px' : '15px 0px 0px 35px'
+      }}
+    >
+      <div className={`list-item-container ${isPost ? 'post-container' : 'comment-container'}`}>
+        <div className="list-item-left-container">
+          <div className="list-item-vote-container">
+            <Icon className="icon-caret-up" type="caret-up" onClick={e => {e.stopPropagation(); isPost ? props.votePost(item.id, "upVote") : props.voteComment(item.id, "upVote")}} />
+            <span className="list-item-votescore">{item.voteScore}</span>
+            <Icon className="icon-caret-down" type="caret-down" onClick={e => {e.stopPropagation(); isPost ? props.votePost(item.id, "downVote") : props.voteComment(item.id, "downVote")}} />
+          </div>
           {isPost
             ? [
-                <div key="category" className="list-item-tag-category">{item.category}</div>,
-                <div key="commentCount">{item.commentCount} comments</div>
+                <div key="tag" className="list-item-tag-container">
+                  <span className="list-item-tag">{item.category}</span>
+                </div>,
+                <div key="comment-counter" className="list-item-comment-counter-container">
+                  <span>{`${item.commentCount} comment${item.commentCount > 1 ? 's' : ''}`}</span>
+                </div>
               ]
             : null
           }
         </div>
-        <div className="list-item-content-container">
+        <div className="list-item-right-container">
           {isPost
-            ? <div className="list-item-header">
+            ? <div className="list-item-header border-bottom-gradient">
                 {clicklable
-                  ? <span className="list-item-title hover-effects" onClick={e => {e.stopPropagation(); onClick(item)}}>
+                  ? <span className="list-item-title hover-effects">
                       {item.title}
                     </span>
                   : <span className="list-item-title">{item.title}</span>
@@ -59,23 +72,35 @@ const ListItem = ({ item, loading, onClick, clicklable, isDetailsScreen, categor
               </div>
             : null
           }
-          <div className="list-item-content">
-            <div>{item.body}</div>
+          <div
+            className="list-item-content"
+            style={isPost
+              ? { minHeight: '120px', margin: '15px 0' }
+              : { minHeight: '40px', margin: '0px', paddingLeft: '15px' }
+            }
+          >
+            {item.body}
           </div>
-          <div className="list-item-footer">
-            <div>{getTimestampAsString(item.timestamp)}</div>
-            <div>{item.author}</div>
-            <Popconfirm
-              placement="top"
-              title={'Are you sure?'}
-              onCancel={e => e.stopPropagation()}
-              onConfirm={e => {e.stopPropagation(); isPost ? props.deletePost(item.id) : props.deleteComment(item.id)}}
-              okText="Yes"
-              cancelText="No"
-            >
-              <Button type="danger" onClick={e => e.stopPropagation()}>Delete</Button>
-            </Popconfirm>
-            <Button onClick={e => {e.stopPropagation(); isPost ? props.editPost(item) : props.editComment(item)}}>Edit</Button>
+          <div className="list-item-footer" style={{ paddingLeft: isPost ? '0px' : '15px' }}>
+            <div className="list-item-action-buttons-container">
+              <Popconfirm
+                placement="top"
+                title="Are you sure?"
+                onCancel={e => e.stopPropagation()}
+                onConfirm={e => {e.stopPropagation(); isPost ? props.deletePost(item.id) : props.deleteComment(item.id)}}
+                okText="Yes"
+                cancelText="No"
+              >
+                <button className="list-item-action-button" onClick={e => e.stopPropagation()}>Delete</button>
+              </Popconfirm>
+              <button className="list-item-action-button" onClick={e => {e.stopPropagation(); isPost ? props.editPost(item) : props.editComment(item)}}>Edit</button>
+            </div>
+            <div className="list-item-author-container">
+              <span>
+                <span style={{ fontWeight: 500 }}>{isPost ? 'posted' : 'commented'}</span> {getTimestampAsString(item.timestamp)}
+              </span>
+              <span>by <span style={{ fontWeight: 'bold' }}>{item.author}</span></span>
+            </div>
           </div>
         </div>
       </div>

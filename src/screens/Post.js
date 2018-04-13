@@ -43,6 +43,11 @@ class Post extends Component {
     }
   }
 
+  buttonBackHandler = () => {
+    const { history, category } = this.props;
+    history.push(`${category === '/' ? category : '/' + category}`);
+  }
+
   render() {
     const { posts, postSelectedId, comments, addNewComment, loading } = this.props;
 
@@ -51,16 +56,18 @@ class Post extends Component {
       : posts.find(p => p.id === postSelectedId);
 
     return (
-      <Content style={{ minHeight: '100vh' }}>
+      <Content>
         <SinglePost item={post} />
         <Comments items={comments} />
         {!loading ? <FloatButton onClick={() => addNewComment(post.id)} /> : null}
+        <FloatButton leftSide onClick={this.buttonBackHandler} />
       </Content>
     );
   }
 }
 
-const mapStateToProps = ({ post, comment, loader }) => ({
+const mapStateToProps = ({ post, comment, loader, category }) => ({
+  category: category.selected,
   posts: post.list,
   postSelectedId: post.selected,
   comments: comment,

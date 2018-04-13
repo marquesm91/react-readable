@@ -48,31 +48,50 @@ class FixedLayout extends Component {
     return (
       <Layout>
         <Sider
+          className="sider-classname"
           trigger={null}
           collapsible
           collapsed={collapsed}
         >
-          <div className="logo">{collapsed ? 'R' : 'Readable'}</div>
+          <div className="logo">
+            {collapsed
+              ? <span style={{ display: 'flex', justifyContent: 'center' }}>R</span>
+              : <span style={{ display: 'flex', justifyContent: 'flex-start' }}>Readable</span>
+            }
+          </div>
           {!collapsed
             ? <div className="filters-container">
                 <div className="filters-container-title">{`${target === 'comment' ? 'Comment' : 'Post'} Filters`}</div>
-                <span>Order by</span>
-                <Select value={orderBy} onChange={value => this.props.setOrderByFilter(value)}>
-                  <Option value="voteScore">Vote score</Option>
-                  <Option value="timestamp">Date</Option>
-                </Select>
-                <span>Order direction</span>
-                <Select value={orderDir} onChange={value => this.props.setOrderDirFilter(value)}>
-                  <Option value="old">{orderBy === 'timestamp' ? 'Most older' : 'Less rated'}</Option>
-                  <Option value="new">{orderBy === 'timestamp' ? 'Most newer' : 'Most rated'}</Option>
-                </Select>
+                <div className="mask-and-filters-container">
+                  <div className="mask-lines-container">
+                    <div className="mask-line border-bottom-gradient"></div>
+                    <div className="mask-line border-bottom-gradient"></div>
+                  </div>
+                  <div className="filters">
+                    <span>Order by</span>
+                    <Select value={orderBy} onChange={value => this.props.setOrderByFilter(value)}>
+                      <Option value="voteScore">Vote score</Option>
+                      <Option value="timestamp">Date</Option>
+                    </Select>
+                    <span>Order direction</span>
+                    <Select value={orderDir} onChange={value => this.props.setOrderDirFilter(value)}>
+                      <Option value="old">{orderBy === 'timestamp' ? 'Most older' : 'Less rated'}</Option>
+                      <Option value="new">{orderBy === 'timestamp' ? 'Most newer' : 'Most rated'}</Option>
+                    </Select>
+                  </div>
+                </div>
               </div>
             : null
           }
-          <Menu theme="dark" mode="inline" selectedKeys={[location.pathname.substring(1) || '/']} onClick={this.loadPostsHanlder}>
+          <Menu
+            mode="inline"
+            className="menu-sidebar"
+            selectedKeys={[location.pathname.substring(1) || '/']}
+            onClick={this.loadPostsHanlder}
+          >
             <Menu.Item key="/">
               <div className="menu-item-sidebar">
-                <Icon type="tags" />
+                <Icon type="heart-o" />
                 <span>All Categories</span>
               </div>
             </Menu.Item>
@@ -80,8 +99,18 @@ class FixedLayout extends Component {
               ? categories.map(category => (
                   <Menu.Item key={`${category.path}`}>
                     <div className="menu-item-sidebar">
-                      <Icon type="tag" />
-                      <span>{category.name}</span>
+                      <img
+                        alt="logo"
+                        style={collapsed
+                          ? { width: '20px', height: '20px', marginRight: '0px' }
+                          : { width: '16px', height: '16px', marginRight: '10px' }
+                        }
+                        src={require(`../assets/${category.name}-logo.png`)}
+                      />
+                      {collapsed
+                        ? ''
+                        : category.name.charAt(0).toUpperCase() + category.name.substring(1)
+                      }
                     </div>
                   </Menu.Item>
                 ))
@@ -98,7 +127,7 @@ class FixedLayout extends Component {
             />
             <SearchBar />
           </Header>
-          <Content style={{ padding: '15px', background: '#fff', minHeight: '100vh', position: 'relative' }}>
+          <Content style={{ padding: '15px', background: '#fff', height: '100%', position: 'relative' }}>
             {children}
           </Content>
         </Layout>

@@ -12,13 +12,13 @@ class FloatButton extends PureComponent {
 
   render() {
     const { hover } = this.state;
-    const { className, onClick, category, postId, isDetailsScreen, howManyPostOfCategory, postSelected } = this.props;
+    const { className, onClick, labels, postId, isDetailsScreen, howManyPostOfCategory, postSelected, leftSide } = this.props;
 
     const firstComment = isDetailsScreen && postSelected && postSelected.commentCount === 0;
     const firstPost = howManyPostOfCategory === undefined || howManyPostOfCategory === 0;
 
     return [
-      firstPost || firstComment
+      (firstPost || firstComment) && !leftSide
         ? <div
             key="help-first"
             className={
@@ -27,19 +27,31 @@ class FloatButton extends PureComponent {
                 : 'float-new-text fade-out'
             }
           >
-            Write the first <strong>{category}</strong> {postId ? 'Comment' : 'Post'}
+            Write the first <strong>{labels.rightSide}</strong> <strong>{postId ? 'Comment' : 'Post'}</strong>
           </div>
         : null,
       <button
         key="fab"
-        className={`float-button ${className}`}
-        style={hover ? {width: postId ? '120px' : '90px' } : null}
+        className={`float-button ${leftSide ? 'float-left-side-button' : ''}`}
+        style={hover
+          ? { width: labels.rightSide ? '150px' : '90px' }
+          : null
+        }
         onClick={onClick}
         onMouseEnter={() => this.setState({ hover: true })}
         onMouseLeave={() => this.setState({ hover: false })}
       >
-        <div className={`float-button-text ${hover ? 'fade-in' : 'fade-out'}`}>{postId ? 'New Comment' : 'New Post'}</div>
-        <div className={`float-button-text ${hover ? 'fade-out' : 'fade-in'}`}><Icon type="plus" /></div>
+        <div className={`float-button-text ${hover ? 'fade-in' : 'fade-out'}`}>
+          {leftSide
+            ? `Back to ${labels.leftSide}`
+            : postId
+              ? `New ${labels.rightSide} Comment`
+              : `New ${labels.rightSide} Post`
+          }
+        </div>
+        <div className={`float-button-text ${hover ? 'fade-out' : 'fade-in'}`}>
+          <Icon type={leftSide ? `left`: `plus`} />
+        </div>
       </button>
     ];
   }
@@ -48,9 +60,12 @@ class FloatButton extends PureComponent {
 const mapStateToProps = ({ post, comment, category }, ownProps) => ({
   postSelected: post.list && post.list.find(p => p.id === ownProps.match.params.post_id),
   howManyPostOfCategory: post.categoryCount[category.selected],
-  category: category.selected === '/' || ownProps.match.path === '/:category/:post_id'
-    ? ''
-    : category.selected[0].toUpperCase() + category.selected.substring(1),
+  labels: category.selected === '/'
+    ? { leftSide: 'Home', rightSide: '' }
+    : {
+        leftSide: category.selected[0].toUpperCase() + category.selected.substring(1),
+        rightSide: category.selected[0].toUpperCase() + category.selected.substring(1),
+      },
   // isDetailsScreen will check if url path is in Post or Posts
   // Post has Comment List -> category is irrelevant and filter won't be necessary
   // Posts has Posts List -> category is relevant and filter will be necessary but only if category is different to '/'

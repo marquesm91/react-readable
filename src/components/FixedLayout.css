@@ -1,5 +1,64 @@
-li {
-  margin: 0 !important;
+.mask-and-filters-container {
+  display: flex;
+  flex-direction: row;
+}
+
+.mask-lines-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.filters {
+  flex: 1;
+}
+
+.mask-line {
+  flex: 1;
+}
+
+.mask-line.border-bottom-gradient {
+  position: relative;
+  margin: 0px 5px 24px 11.5px;
+}
+.mask-line.border-bottom-gradient:before,
+.mask-line.border-bottom-gradient:after {
+  content: "";
+  position: absolute;
+  bottom: -2.2px;
+  left: -2.2px;
+}
+.mask-line.border-bottom-gradient:before {
+  top: -2.2px;
+  width: 1.8px;
+  background-image: -webkit-gradient(linear, 0 100%, 0 0, from(#aaa), to(transparent));
+  background-image: -webkit-linear-gradient(transparent, #aaa);
+  background-image: -moz-linear-gradient(transparent, #aaa);
+  background-image: -o-linear-gradient(transparent, #aaa);
+}
+.mask-line.border-bottom-gradient:after {
+  right: -2.2px;
+  height: 1.8px;
+  background-image: -webkit-gradient(linear, 0 0, 100% 0, from(#aaa), to(transparent));
+  background-image: -webkit-linear-gradient(left, #aaa, transparent);
+  background-image: -moz-linear-gradient(left, #aaa, transparent);
+  background-image: -o-linear-gradient(left, #aaa, transparent);
+}
+
+.sider-classname {
+  background: #fff;
+}
+
+.menu-sidebar {
+  background: #fff;
+  border: none;
+  color: #C7D4E4;
+}
+
+.menu-item-sidebar:active,
+.menu-item-sidebar:hover {
+  text-decoration: none;
+  color: inherit;
 }
 
 .trigger {
@@ -15,21 +74,11 @@ li {
 }
 
 .logo {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: #fff;
+  color: #3E90F7;
   font-weight: bold;
   font-size: 24px;
   height: 32px;
-  /*background: rgba(255,255,255,.2);*/
-  margin: 16px;
-}
-
-.menu-item-sidebar,
-.menu-item-sidebar:hover {
-  text-decoration: none;
-  color: inherit;
+  margin: 16px 24px;
 }
 
 .filters-container {
@@ -43,20 +92,28 @@ li {
 }
 
 .filters-container > span {
-  color: rgba(255, 255, 255, 0.65);
+  color: #555;
+  font-size: 12px;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
+.filters > span {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.filters > div {
+  margin-bottom: 10px;
 }
 
 .filters-container > span ~ span {
   margin-top: 5px;
 }
 
-.filters-container > div {
-  margin-top: 5px;
-}
-
 .filters-container-title {
-  margin: 0 !important;
-  color: #fff;
+  margin-bottom: 0px;
+  color: #555;
   font-size: 18px;
   font-weight: bold;
 }

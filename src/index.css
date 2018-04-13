@@ -4,11 +4,7 @@ body {
   font-family: sans-serif;
 }
 
-.searchbar-filter-icon {
-  color: rgba(0, 0, 0, .25);
-  cursor: pointer;
-}
-
-.searchbar-filter-icon:hover {
-  color: rgba(90, 169, 248, 1);
+body > #root > div {
+  width: 100%;
+  min-height: 100vh;
 }

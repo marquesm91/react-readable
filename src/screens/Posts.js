@@ -37,7 +37,7 @@ class Posts extends Component {
     const { posts, addNewPost, loading } = this.props;
 
     return (
-      <Content style={{ minHeight: '100vh', boxSizing: 'border-box' }}>
+      <Content>
         <PostList items={posts} onClick={this.onClickPostHandler} clicklable />
         {!loading ? <FloatButton onClick={() => addNewPost()} /> : null}
       </Content>

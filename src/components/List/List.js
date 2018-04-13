@@ -32,15 +32,40 @@ const List = ({ items, loading, onClick, clicklable, orderBy, orderDir, target, 
   // Apply sort only if these two conditions are true
   const itemsAfterSort = itemsAfterSearchFilter.sort(sortBy(`${orderDir === 'new' ? '-' : ''}${orderBy}`));
 
-  return (
-    <ol className="container-list">
-      {itemsAfterSort.map(item => (
-        <li key={item.id}>
-          <ListItem item={item} onClick={itemClicked => onClick(itemClicked)} clicklable={clicklable} />
-        </li>
-      ))}
-    </ol>
-  );
+  return [
+    <div
+      key="title"
+      style={isDetailsScreen
+        ? { marginTop: '15px', color: '#777', fontSize: '18px' }
+        : { marginTop: '0px', color: '#555', fontSize: '26px' }
+      }
+      className="list-title border-bottom-gradient"
+    >
+      {isDetailsScreen
+        ? 'Comments'
+        : [
+            <span key="prefix" style={{ fontWeight: 'bold' }}>
+              {category === '/'
+                ? 'All '
+                : `${category.charAt(0).toUpperCase() + category.substring(1)} `
+              }
+            </span>,
+            'Posts'
+          ]
+      }
+    </div>,
+    itemsAfterSort.length
+      ? <ol key="list" className="container-list">
+          {itemsAfterSort.map(item => (
+            <li key={item.id}>
+              <ListItem item={item} onClick={itemClicked => onClick(itemClicked)} clicklable={clicklable} />
+            </li>
+          ))}
+        </ol>
+      : <div key="empty-list" className={`empty-container-list-${isDetailsScreen ? 'comment' : 'post'}`}>
+          Be the first to {isDetailsScreen ? 'Comment' : 'Post'} something <div style={{ fontWeight: 'bold', margin: '0 5px' }}>awesome</div> about it!
+        </div>
+  ];
 };
 
 const mapStateToProps = ({ post, category, filter, search, loader }, ownProps) => ({

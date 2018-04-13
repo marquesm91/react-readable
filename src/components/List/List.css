@@ -8,14 +8,31 @@
   margin-top: 15px;
 }
 
-/*.container-list li {
-  box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
-  transition: box-shadow 0.2s linear;
+.list-title {
+  box-sizing: border-box;
+  padding-bottom: 7px;
 }
 
-.container-list li:hover {
-  box-shadow: 0px 2px 7px 0px rgba(0, 0, 0, 0.5);
-}*/
+.list-title.border-bottom-gradient {
+  position: relative;
+}
+.list-title.border-bottom-gradient:before,
+.list-title.border-bottom-gradient:after {
+  content: "";
+  position: absolute;
+  bottom: -1.5px;
+  left: -1.5px;
+
+}
+
+.list-title.border-bottom-gradient:after {
+  right: -1.5px;
+  height: 1.5px;
+  background-image: -webkit-gradient(linear, 0 0, 100% 0, from(#E8E8E8), to(transparent));
+  background-image: -webkit-linear-gradient(left, #E8E8E8, transparent);
+  background-image: -moz-linear-gradient(left, #E8E8E8, transparent);
+  background-image: -o-linear-gradient(left, #E8E8E8, transparent);
+}
 
 .list-item-container {
   display: flex;
@@ -23,14 +40,87 @@
   width: 100%;
 }
 
-.list-item-left-info-container {
-  display: flex;
-  flex-direction: column;
-  width: 20%;
+.list-item-left-container {
+  margin-right: 15px;
 }
 
-.list-item-content-container {
+.icon-caret-up,
+.icon-caret-down {
+  font-size: 28px;
+}
+
+.list-item-vote-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.list-item-tag-container,
+.list-item-comment-counter-container {
+  margin-top: 10px;
+  min-width: 88px;
+  text-align: center;
+}
+
+.list-item-comment-counter-container {
+  margin-top: 20px;
+}
+
+.list-item-votescore {
+  width: 28px;
+  font-size: 22px;
+  display: flex;
+  flex-direction: center;
+  justify-content: center;
+}
+
+.list-item-comment-count {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: row;
+}
+
+.list-item-comment-counter-container > span ~ span {
+  margin-left: 5px;
+}
+
+.list-item-tag {
+  box-sizing: border-box;
+  padding: 2.5px 5px;
+  border: 1px solid #3E90F7;
+  border-radius: 12.5px;
+  color: #3E90F7;
+}
+
+.list-item-right-container {
   width: 100%;
+}
+
+.list-item-header {
+  padding-bottom: 5px;
+  box-sizing: border-box;
+}
+
+.list-item-header.border-bottom-gradient {
+  position: relative;
+}
+.list-item-header.border-bottom-gradient:before,
+.list-item-header.border-bottom-gradient:after {
+  content: "";
+  position: absolute;
+  bottom: -1.5px;
+  left: -1.5px;
+
+}
+
+.list-item-header.border-bottom-gradient:after {
+  right: -1.5px;
+  height: 1.5px;
+  background-image: -webkit-gradient(linear, 0 0, 100% 0, from(#E8E8E8), to(transparent));
+  background-image: -webkit-linear-gradient(left, #E8E8E8, transparent);
+  background-image: -moz-linear-gradient(left, #E8E8E8, transparent);
+  background-image: -o-linear-gradient(left, #E8E8E8, transparent);
 }
 
 .list-item-title {
@@ -38,11 +128,72 @@
   font-weight: bold;
 }
 
-.list-item-title.hover-effects:hover {
-  text-decoration: underline;
-  cursor: pointer;
+.list-item-content {
+  margin: 10px 0px;
+  font-size: 15px;
 }
 
-.list-item-tag-category {
-  color: #40a9ff;
+.list-item-footer {
+  margin-top: 10px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: row;
+}
+
+.list-item-action-buttons-container > button ~ button {
+  margin-left: 10px;
+}
+
+.list-item-action-buttons-container {
+  flex: 1;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+
+.list-item-action-button {
+  border: none;
+  background: transparent;
+  color: #848d95;
+  font-size: 12px;
+  padding: 0;
+}
+
+.list-item-action-button:hover {
+  cursor: pointer;
+  color: #555;
+}
+
+.list-item-action-button:focus {
+  outline: 0;
+}
+
+.list-item-author-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.empty-container-list-post {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+}
+
+.empty-container-list-comment {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  position: absolute;
+  bottom: 20%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 18px;
 }
