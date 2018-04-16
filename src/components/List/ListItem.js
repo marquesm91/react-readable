@@ -66,7 +66,7 @@ const ListItem = ({ item, loading, onClick, clicklable, isDetailsScreen, categor
                   <span className="list-item-tag">{item.category}</span>
                 </div>,
                 <div key="comment-counter" className="list-item-comment-counter-container">
-                  <span>{`${item.commentCount} comment${item.commentCount > 1 ? 's' : ''}`}</span>
+                  <span>{`${item.commentCount} comment${item.commentCount !== 1 ? 's' : ''}`}</span>
                 </div>
               ]
             : null
@@ -87,7 +87,7 @@ const ListItem = ({ item, loading, onClick, clicklable, isDetailsScreen, categor
           <div
             className="list-item-content"
             style={isPost
-              ? { minHeight: '120px', margin: '15px 0' }
+              ? { minHeight: '95px', margin: '15px 0' }
               : { minHeight: '40px', margin: '0px', paddingLeft: '15px' }
             }
           >

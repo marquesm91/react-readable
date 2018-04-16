@@ -1,5 +1,9 @@
 # Readable Project
 
+### [Live Demo](https://react-readable-4b661.firebaseapp.com/)
+
+<img src="https://i.imgur.com/kWYD7s5.png" alt="Imgur image" />
+
 Readable Project is the second challenge project of Udacity Nanodegree React Program.
 
 This project was bootstrapped with [Create React App](https://github.com/facebookincubator/create-react-app).

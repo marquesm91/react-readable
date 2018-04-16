@@ -36,7 +36,7 @@ const List = ({ items, loading, onClick, clicklable, orderBy, orderDir, target, 
     <div
       key="title"
       style={isDetailsScreen
-        ? { marginTop: '15px', color: '#777', fontSize: '18px' }
+        ? { marginTop: '8px', color: '#777', fontSize: '18px' }
         : { marginTop: '0px', color: '#555', fontSize: '26px' }
       }
       className="list-title border-bottom-gradient"
